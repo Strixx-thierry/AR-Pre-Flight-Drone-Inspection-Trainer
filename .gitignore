@@ -3,6 +3,7 @@
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
+/.utmp/
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
@@ -71,3 +72,6 @@ desktop.ini
 # ---- Project ----
 # UI design kit stays local until the design phase is done
 /Design/
+# Scene builder helper stays local
+/Assets/_Project/Scripts/Editor/SceneBuilders.cs
+/Assets/_Project/Scripts/Editor/SceneBuilders.cs.meta
