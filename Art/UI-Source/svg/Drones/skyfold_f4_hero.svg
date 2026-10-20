@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#F7F9FA"/><stop offset="0.55" stop-color="#D3D9DE"/><stop offset="1" stop-color="#9AA3AD"/></linearGradient>
+    <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E1E6EA"/></linearGradient>
+    <linearGradient id="bat" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C9D0D7"/><stop offset="1" stop-color="#9EA7B1"/></linearGradient>
+    <linearGradient id="armg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F0F3F5"/><stop offset="1" stop-color="#AEB6BF"/></linearGradient>
+    <linearGradient id="metal" x1="0" x2="1">
+      <stop offset="0" stop-color="#5D6570"/><stop offset="0.45" stop-color="#C9CFD5"/><stop offset="1" stop-color="#4A515B"/></linearGradient>
+    <radialGradient id="blur"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.05"/>
+      <stop offset="0.75" stop-color="#C8D0D8" stop-opacity="0.22"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0.05"/></radialGradient>
+    <radialGradient id="lens" cx="0.4" cy="0.35"><stop offset="0" stop-color="#5D8BFF"/>
+      <stop offset="0.35" stop-color="#14203A"/><stop offset="1" stop-color="#05070B"/></radialGradient>
+    <radialGradient id="shadow"><stop offset="0" stop-color="#000" stop-opacity="0.55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+
+  <ellipse cx="800" cy="860" rx="560" ry="70" fill="url(#shadow)"/>
+
+  <!-- rear arms, legs and motors (behind the body) -->
+  <path d="M700 400 L470 300" stroke="#7E8792" stroke-width="40" stroke-linecap="round"/><path d="M700 400 L470 300" stroke="url(#armg)" stroke-width="34" stroke-linecap="round"/><path d="M700 391.5 L470 291.5" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="6.800000000000001" stroke-linecap="round"/><path d="M900 400 L1130 300" stroke="#7E8792" stroke-width="40" stroke-linecap="round"/><path d="M900 400 L1130 300" stroke="url(#armg)" stroke-width="34" stroke-linecap="round"/><path d="M900 391.5 L1130 291.5" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="6.800000000000001" stroke-linecap="round"/>
+  <path d="M461 330 L464 450 L476 450 L479 330 Z" fill="url(#armg)" stroke="#7E8792" stroke-width="2"/><rect x="461" y="446" width="18" height="10" rx="4" fill="#20262E"/><path d="M1121 330 L1124 450 L1136 450 L1139 330 Z" fill="url(#armg)" stroke="#7E8792" stroke-width="2"/><rect x="1121" y="446" width="18" height="10" rx="4" fill="#20262E"/>
+  <g transform="translate(470 300) scale(0.85)">
+      <ellipse cx="0" cy="56" rx="34" ry="12" fill="#46E0D2" opacity="0.35" filter="url(#glow)"/>
+      <rect x="-26" y="-6" width="52" height="54" rx="10" fill="url(#metal)"/>
+      <rect x="-26" y="18" width="52" height="8" fill="#0D1014" opacity="0.55"/>
+      <ellipse cx="0" cy="-6" rx="26" ry="9" fill="#DDE2E7"/>
+      <ellipse cx="0" cy="-8" rx="12" ry="4.5" fill="#2A3038"/>
+      <rect x="-27" y="34" width="54" height="5" rx="2" fill="#46E0D2" opacity="0.9"/>
+    </g><g transform="translate(1130 300) scale(0.85)">
+      <ellipse cx="0" cy="56" rx="34" ry="12" fill="#46E0D2" opacity="0.35" filter="url(#glow)"/>
+      <rect x="-26" y="-6" width="52" height="54" rx="10" fill="url(#metal)"/>
+      <rect x="-26" y="18" width="52" height="8" fill="#0D1014" opacity="0.55"/>
+      <ellipse cx="0" cy="-6" rx="26" ry="9" fill="#DDE2E7"/>
+      <ellipse cx="0" cy="-8" rx="12" ry="4.5" fill="#2A3038"/>
+      <rect x="-27" y="34" width="54" height="5" rx="2" fill="#46E0D2" opacity="0.9"/>
+    </g>
+
+  <!-- body -->
+  <path d="M800 230 C905 230 968 285 972 372 L962 560 C956 650 888 712 800 712 C712 712 644 650 638 560 L628 372 C632 285 695 230 800 230 Z"
+        fill="url(#shell)" stroke="#7E8792" stroke-width="4"/>
+  <path d="M800 252 C885 252 935 296 940 366 L936 470 L664 470 L660 366 C665 296 715 252 800 252 Z" fill="url(#deck)"/>
+  <!-- battery bay -->
+  <rect x="690" y="270" width="220" height="175" rx="34" fill="url(#bat)" stroke="#7E8792" stroke-width="3"/>
+  <g fill="#7E8792" opacity="0.8"><rect x="735" y="300" width="130" height="10" rx="5"/><rect x="735" y="320" width="130" height="10" rx="5"/><rect x="735" y="340" width="130" height="10" rx="5"/></g>
+  <g fill="#46E0D2"><circle cx="760" cy="400" r="7"/><circle cx="785" cy="400" r="7"/><circle cx="810" cy="400" r="7"/></g>
+  <circle cx="835" cy="400" r="7" fill="#5F6976"/>
+  <rect x="760" y="432" width="80" height="16" rx="6" fill="#4A515B"/>
+  <!-- vents + power button -->
+  <g fill="#3A424E"><rect x="680" y="510" width="62" height="11" rx="5"/><rect x="680" y="530" width="62" height="11" rx="5"/><rect x="680" y="550" width="62" height="11" rx="5"/>
+    <rect x="858" y="510" width="62" height="11" rx="5"/><rect x="858" y="530" width="62" height="11" rx="5"/><rect x="858" y="550" width="62" height="11" rx="5"/></g>
+  <circle cx="800" cy="520" r="20" fill="#E9EDF1" stroke="#7E8792" stroke-width="4"/>
+  <!-- nose LEDs -->
+  <ellipse cx="712" cy="640" rx="18" ry="9" fill="#FFF6D8"/><ellipse cx="888" cy="640" rx="18" ry="9" fill="#FFF6D8"/>
+
+  <!-- front arms, legs and motors -->
+  <path d="M690 590 L340 660" stroke="#7E8792" stroke-width="46" stroke-linecap="round"/><path d="M690 590 L340 660" stroke="url(#armg)" stroke-width="40" stroke-linecap="round"/><path d="M690 580.0 L340 650.0" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="8.0" stroke-linecap="round"/><path d="M910 590 L1260 660" stroke="#7E8792" stroke-width="46" stroke-linecap="round"/><path d="M910 590 L1260 660" stroke="url(#armg)" stroke-width="40" stroke-linecap="round"/><path d="M910 580.0 L1260 650.0" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="8.0" stroke-linecap="round"/>
+  <path d="M331 690 L334 840 L346 840 L349 690 Z" fill="url(#armg)" stroke="#7E8792" stroke-width="2"/><rect x="331" y="836" width="18" height="10" rx="4" fill="#20262E"/><path d="M1251 690 L1254 840 L1266 840 L1269 690 Z" fill="url(#armg)" stroke="#7E8792" stroke-width="2"/><rect x="1251" y="836" width="18" height="10" rx="4" fill="#20262E"/>
+  <g transform="translate(340 660) scale(1.0)">
+      <ellipse cx="0" cy="56" rx="34" ry="12" fill="#46E0D2" opacity="0.35" filter="url(#glow)"/>
+      <rect x="-26" y="-6" width="52" height="54" rx="10" fill="url(#metal)"/>
+      <rect x="-26" y="18" width="52" height="8" fill="#0D1014" opacity="0.55"/>
+      <ellipse cx="0" cy="-6" rx="26" ry="9" fill="#DDE2E7"/>
+      <ellipse cx="0" cy="-8" rx="12" ry="4.5" fill="#2A3038"/>
+      <rect x="-27" y="34" width="54" height="5" rx="2" fill="#46E0D2" opacity="0.9"/>
+    </g><g transform="translate(1260 660) scale(1.0)">
+      <ellipse cx="0" cy="56" rx="34" ry="12" fill="#46E0D2" opacity="0.35" filter="url(#glow)"/>
+      <rect x="-26" y="-6" width="52" height="54" rx="10" fill="url(#metal)"/>
+      <rect x="-26" y="18" width="52" height="8" fill="#0D1014" opacity="0.55"/>
+      <ellipse cx="0" cy="-6" rx="26" ry="9" fill="#DDE2E7"/>
+      <ellipse cx="0" cy="-8" rx="12" ry="4.5" fill="#2A3038"/>
+      <rect x="-27" y="34" width="54" height="5" rx="2" fill="#46E0D2" opacity="0.9"/>
+    </g>
+
+  <!-- gimbal + camera -->
+  <rect x="742" y="690" width="116" height="42" rx="14" fill="#B9C1C9" stroke="#7E8792" stroke-width="3"/>
+  <rect x="728" y="720" width="22" height="72" rx="8" fill="#AEB6BF"/><rect x="850" y="720" width="22" height="72" rx="8" fill="#AEB6BF"/>
+  <rect x="748" y="722" width="104" height="92" rx="30" fill="url(#shell)" stroke="#7E8792" stroke-width="3"/>
+  <circle cx="800" cy="768" r="34" fill="#11151A" stroke="#4A515B" stroke-width="5"/>
+  <circle cx="800" cy="768" r="24" fill="url(#lens)"/>
+  <circle cx="790" cy="757" r="6" fill="#FFFFFF" opacity="0.7"/>
+
+  <!-- spinning props (on top) -->
+  <g transform="translate(470 290)">
+      <ellipse rx="190" ry="46" fill="url(#blur)"/>
+      <ellipse rx="190" ry="46" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"/>
+      <path d="M-174.8 -8.28 Q 0 -25.3 174.8 8.28" stroke="#20262E" stroke-opacity="0.45" stroke-width="10.12" stroke-linecap="round" fill="none"/>
+      <path d="M-133.0 16.099999999999998 Q 0 2.3000000000000003 133.0 -16.099999999999998" stroke="#20262E" stroke-opacity="0.25" stroke-width="7.36" stroke-linecap="round" fill="none"/>
+      <ellipse rx="12" ry="5" fill="#2A3038"/>
+    </g><g transform="translate(1130 290)">
+      <ellipse rx="190" ry="46" fill="url(#blur)"/>
+      <ellipse rx="190" ry="46" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"/>
+      <path d="M-174.8 -8.28 Q 0 -25.3 174.8 8.28" stroke="#20262E" stroke-opacity="0.45" stroke-width="10.12" stroke-linecap="round" fill="none"/>
+      <path d="M-133.0 16.099999999999998 Q 0 2.3000000000000003 133.0 -16.099999999999998" stroke="#20262E" stroke-opacity="0.25" stroke-width="7.36" stroke-linecap="round" fill="none"/>
+      <ellipse rx="12" ry="5" fill="#2A3038"/>
+    </g>
+  <g transform="translate(340 648)">
+      <ellipse rx="230" ry="60" fill="url(#blur)"/>
+      <ellipse rx="230" ry="60" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"/>
+      <path d="M-211.60000000000002 -10.799999999999999 Q 0 -33.0 211.60000000000002 10.799999999999999" stroke="#20262E" stroke-opacity="0.45" stroke-width="13.2" stroke-linecap="round" fill="none"/>
+      <path d="M-161.0 21.0 Q 0 3.0 161.0 -21.0" stroke="#20262E" stroke-opacity="0.25" stroke-width="9.6" stroke-linecap="round" fill="none"/>
+      <ellipse rx="12" ry="5" fill="#2A3038"/>
+    </g><g transform="translate(1260 648)">
+      <ellipse rx="230" ry="60" fill="url(#blur)"/>
+      <ellipse rx="230" ry="60" fill="none" stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="2"/>
+      <path d="M-211.60000000000002 -10.799999999999999 Q 0 -33.0 211.60000000000002 10.799999999999999" stroke="#20262E" stroke-opacity="0.45" stroke-width="13.2" stroke-linecap="round" fill="none"/>
+      <path d="M-161.0 21.0 Q 0 3.0 161.0 -21.0" stroke="#20262E" stroke-opacity="0.25" stroke-width="9.6" stroke-linecap="round" fill="none"/>
+      <ellipse rx="12" ry="5" fill="#2A3038"/>
+    </g>
+</svg>
