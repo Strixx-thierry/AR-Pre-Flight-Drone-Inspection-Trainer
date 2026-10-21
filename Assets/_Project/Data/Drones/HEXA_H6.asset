@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6904768d4fde534fb8c90ef1fdee8c3, type: 3}
+  m_Name: HEXA_H6
+  m_EditorClassIdentifier: DroneTrainer.Runtime::DroneTrainer.Data.DroneDefinition
+  id: HEXA_H6
+  displayName: HEXA H6
+  subtitle: Heavy-lift hexacopter
+  difficultyLabel: ADVANCED
+  difficulty: 3
+  locked: 1
+  lockedNote: "Bonus \xB7 locked"
+  prefab: {fileID: 0}
+  scenarioFile: 
+  fallbackScenario: {fileID: 0}
+  specs:
+  - label: Status
+    value: "Bonus \xB7 locked"

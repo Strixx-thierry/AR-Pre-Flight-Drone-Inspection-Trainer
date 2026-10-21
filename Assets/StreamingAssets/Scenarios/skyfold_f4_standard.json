@@ -1,0 +1,59 @@
+{
+  "id": "skyfold_f4_standard",
+  "droneId": "SKYFOLD_F4",
+  "module": "Module 1",
+  "title": "Standard Pre-Flight",
+  "targetSeconds": 240,
+  "steps": [
+    {
+      "id": "battery",
+      "title": "Battery latch",
+      "instruction": "Secure the battery",
+      "helper": "Tap the battery, check the charge, then slide the latch until it clicks.",
+      "hint": "An unlatched battery can shift or eject in flight, which means total power loss and a crash.",
+      "icon": "battery",
+      "type": "Latch",
+      "critical": true,
+      "targets": ["Battery_Latch"]
+    },
+    {
+      "id": "props",
+      "title": "Propellers",
+      "instruction": "Inspect each propeller",
+      "helper": "Tap the glowing rotor. Move in close and look for chips, cracks or bends.",
+      "hint": "A cracked blade can shed at high RPM. Vibration and imbalance are a leading cause of small-UAS crashes.",
+      "icon": "prop",
+      "type": "Verdict",
+      "critical": true,
+      "targets": ["Prop_FL", "Prop_FR", "Prop_RR", "Prop_RL"]
+    },
+    {
+      "id": "gimbal",
+      "title": "Gimbal clamp",
+      "instruction": "Remove the gimbal clamp",
+      "helper": "Swipe up on the clear clamp to slide it off the camera.",
+      "hint": "If the clamp is still fitted at power-up, the gimbal motors strain against it and the self-test fails.",
+      "icon": "gimbal",
+      "type": "Remove",
+      "critical": true,
+      "targets": ["Gimbal_Clamp"]
+    },
+    {
+      "id": "calibration",
+      "title": "Controller calibration",
+      "instruction": "Calibrate the controller",
+      "helper": "Tap CALIBRATE RC, then centre, rotate both sticks fully, and centre again.",
+      "hint": "An uncalibrated controller can cause drift or unintended inputs at take-off.",
+      "icon": "rc",
+      "type": "Calibration",
+      "critical": true,
+      "targets": []
+    }
+  ],
+  "faults": {
+    "crackedProps": ["Prop_FR"],
+    "batteryStartsUnlocked": true,
+    "clampFitted": true,
+    "batteryCharge": 3
+  }
+}

@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4336cde0a0b3d44caf5b92049f7607c, type: 3}
+  m_Name: UITheme
+  m_EditorClassIdentifier: DroneTrainer.Runtime::DroneTrainer.UI.UITheme
+  bg0: {r: 0.02745098, g: 0.03529412, b: 0.047058824, a: 1}
+  bg1: {r: 0.050980393, g: 0.0627451, b: 0.078431375, a: 1}
+  panel: {r: 0.08627451, g: 0.101960786, b: 0.1254902, a: 1}
+  panel2: {r: 0.12156863, g: 0.14117648, b: 0.17254902, a: 1}
+  line: {r: 0.16862746, g: 0.19215687, b: 0.23137255, a: 1}
+  glass: {r: 0.05, g: 0.063, b: 0.078, a: 0.72}
+  text: {r: 0.9137255, g: 0.92941177, b: 0.94509804, a: 1}
+  textDim: {r: 0.6039216, g: 0.6431373, b: 0.69411767, a: 1}
+  textMute: {r: 0.37254903, g: 0.4117647, b: 0.4627451, a: 1}
+  accent: {r: 0.27450982, g: 0.8784314, b: 0.8235294, a: 1}
+  ok: {r: 0.2901961, g: 0.87058824, b: 0.5019608, a: 1}
+  warn: {r: 1, g: 0.6901961, b: 0.1254902, a: 1}
+  danger: {r: 1, g: 0.3019608, b: 0.36862746, a: 1}
+  info: {r: 0.43137255, g: 0.65882355, b: 1, a: 1}
+  rounded: {fileID: 21300000, guid: b6becfa88e72fd847bd957b8cc240414, type: 3}
+  roundedLarge: {fileID: 21300000, guid: 34e37fb568a029d459725a1b64aae541, type: 3}
+  pill: {fileID: 21300000, guid: e1d9a88eec6d56d48a85fc327ab7963f, type: 3}
+  circle: {fileID: 21300000, guid: da3e8cdd2dbb2694ba9d3aad338cb6e5, type: 3}
+  ring: {fileID: 21300000, guid: 4f0d0b9556f816943b6d43b1d51da665, type: 3}
+  softGlow: {fileID: 21300000, guid: 671d7f67962804040a28e2482d67b293, type: 3}
+  gradient: {fileID: 21300000, guid: 51b046bd96b95aa4d9fc2201fd213ff5, type: 3}
+  icons:
+  - name: check
+    sprite: {fileID: 21300000, guid: de919b2cdb6018447a6ee2ea2114362b, type: 3}
+  - name: x
+    sprite: {fileID: 21300000, guid: 5653337e86f78b7498b06b733bb792da, type: 3}
+  - name: pause
+    sprite: {fileID: 21300000, guid: 4f96c02e4e4bd414b8167ac8cde7e8c9, type: 3}
+  - name: play
+    sprite: {fileID: 21300000, guid: d3537e25f0a412549b1091cd411f24c7, type: 3}
+  - name: help
+    sprite: {fileID: 21300000, guid: 744c72f73a156974387b2b3c1ee85310, type: 3}
+  - name: info
+    sprite: {fileID: 21300000, guid: 44f4eaa2724d98c4c9aafafdbdea3d6c, type: 3}
+  - name: warn
+    sprite: {fileID: 21300000, guid: c132f8be287dc5b49a706885b621b7a0, type: 3}
+  - name: timer
+    sprite: {fileID: 21300000, guid: c4cf114b837e4104dbeb0a3cd5bc0fa2, type: 3}
+  - name: battery
+    sprite: {fileID: 21300000, guid: 12570f8aac3304e47b43b438c2d62c9e, type: 3}
+  - name: prop
+    sprite: {fileID: 21300000, guid: d72e767d3609c074583699e6e4527e37, type: 3}
+  - name: gimbal
+    sprite: {fileID: 21300000, guid: 9cc951cb8c636c242b742cf0b4722625, type: 3}
+  - name: rc
+    sprite: {fileID: 21300000, guid: 37ad4806550e24a40a0e10b34e1dbe15, type: 3}
+  - name: lock
+    sprite: {fileID: 21300000, guid: 5cf32f4399cc47840a48f53a112e3337, type: 3}
+  - name: unlock
+    sprite: {fileID: 21300000, guid: 373e7d623c33ee24890c4a75352f6d6a, type: 3}
+  - name: phone
+    sprite: {fileID: 21300000, guid: a1ed11683f2c9ba4fbb07a2d3d9f9618, type: 3}
+  - name: hand
+    sprite: {fileID: 21300000, guid: 11763fb34ae807f459de1ef7c5b266da, type: 3}
+  - name: rotate
+    sprite: {fileID: 21300000, guid: 25041ea6df8bad24a95b96ac2ba1d232, type: 3}
+  - name: reset
+    sprite: {fileID: 21300000, guid: 27477984adc7c994bacd93f44b505a72, type: 3}
+  - name: scale
+    sprite: {fileID: 21300000, guid: 756866c894d98d54ca4234d7b63cd292, type: 3}
+  - name: eye
+    sprite: {fileID: 21300000, guid: 8d380d47287bd0b42a825daa1b74177f, type: 3}
+  - name: left
+    sprite: {fileID: 21300000, guid: 5dd7b8162f2ea5e40bc6bbf802f744df, type: 3}
+  - name: right
+    sprite: {fileID: 21300000, guid: 11988c5e6c4e58246b3cee9c17906e69, type: 3}
+  - name: gear
+    sprite: {fileID: 21300000, guid: 2a6873ebc93a05648bc9fb3394c6860d, type: 3}
+  - name: home
+    sprite: {fileID: 21300000, guid: 769ff8d8ffdf5f94c84b6660964c6e7a, type: 3}
+  - name: hangar
+    sprite: {fileID: 21300000, guid: 27ce03328bb7e8948b82e690cc183181, type: 3}
+  - name: train
+    sprite: {fileID: 21300000, guid: c64f909d91e60394c8babd8f1141bcd3, type: 3}
+  - name: records
+    sprite: {fileID: 21300000, guid: f689691bb60179f4f88dc96b16b57e8e, type: 3}
+  - name: drone
+    sprite: {fileID: 21300000, guid: 180325dc3ac8e2849b22feed756f02a4, type: 3}
+  - name: trophy
+    sprite: {fileID: 21300000, guid: e3888bbb93764e94aae87a877e8f6d8c, type: 3}
+  - name: flag
+    sprite: {fileID: 21300000, guid: 38336908dc5b61441b2d6c2f17dfad3e, type: 3}
+  - name: target
+    sprite: {fileID: 21300000, guid: f33d5bfea2a75fc4f86c306e31247c7f, type: 3}
+  - name: signal
+    sprite: {fileID: 21300000, guid: c32d088ac3cbdd1469765a273bd2edfd, type: 3}
+  - name: sound
+    sprite: {fileID: 21300000, guid: b73e6897a36c4e041adb78a7fcfa2b82, type: 3}
+  - name: vibrate
+    sprite: {fileID: 21300000, guid: 8bea78dfe900b1d4eb570ad33adb57b3, type: 3}
+  - name: exit
+    sprite: {fileID: 21300000, guid: c0be8ecb0e0f4914989540fd53f08647, type: 3}
+  - name: star
+    sprite: {fileID: 21300000, guid: def0b30b69bf9bd47a8c7129199ef57d, type: 3}
+  - name: clip
+    sprite: {fileID: 21300000, guid: 0dee035ca1c9e3447a799f69ba38b428, type: 3}
+  - name: wrench
+    sprite: {fileID: 21300000, guid: b499838a4a93f364a993350063377520, type: 3}
+  navTile: {fileID: 21300000, guid: 397b14bc3f95c634097c914ae8dbcfb9, type: 3}
+  navTileActive: {fileID: 21300000, guid: 159fc91f510c63241addf96887793870, type: 3}
+  quickCard: {fileID: 21300000, guid: 33eecc8c9825e6241b34952fdad11bdc, type: 3}
+  droneSilhouette: {fileID: 21300000, guid: dabd7a6dbac684345a15d4217e2a524a, type: 3}
+  healthBar: {fileID: 21300000, guid: 805c9940cad6d3d4cab30fdd3054d482, type: 3}
+  badgeAlert: {fileID: 21300000, guid: 7ef2d6da6701240439c24637c717fef0, type: 3}
+  heroDrone: {fileID: 21300000, guid: c38895c61e6aa224ab2d1f457b4dc00d, type: 3}
+  font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

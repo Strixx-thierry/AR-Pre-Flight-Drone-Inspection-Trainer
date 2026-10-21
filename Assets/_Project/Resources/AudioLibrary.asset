@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba240a9f78c7f141b498581ff484dc8, type: 3}
+  m_Name: AudioLibrary
+  m_EditorClassIdentifier: DroneTrainer.Runtime::DroneTrainer.Audio.AudioLibrary
+  clips:
+  - name: blocked
+    clip: {fileID: 8300000, guid: b6e9fcc91cbf7d84d9ffcc176a12f904, type: 3}
+    volume: 0.85
+  - name: confirm
+    clip: {fileID: 8300000, guid: 764f992f21b5657478b12c3d20b19131, type: 3}
+    volume: 0.85
+  - name: error
+    clip: {fileID: 8300000, guid: 103bcfe276805b345b67aa2626700cbb, type: 3}
+    volume: 0.85
+  - name: found
+    clip: {fileID: 8300000, guid: ca53fa64e9808944ea6a4b43ab32e215, type: 3}
+    volume: 0.85
+  - name: latch
+    clip: {fileID: 8300000, guid: 7a35efd485f81e34eb186cdbb53c3596, type: 3}
+    volume: 0.85
+  - name: motor
+    clip: {fileID: 8300000, guid: 6689db06521b8714493e64de42d17446, type: 3}
+    volume: 0.55
+  - name: place
+    clip: {fileID: 8300000, guid: d9e6ea4147e5ab84286235f45c945684, type: 3}
+    volume: 0.85
+  - name: select
+    clip: {fileID: 8300000, guid: 6d3cd705e2147ec4d9ebf098f6d938bc, type: 3}
+    volume: 0.85
+  - name: success
+    clip: {fileID: 8300000, guid: dc1c4598f6c05764288827469cf4fcdf, type: 3}
+    volume: 0.85
+  - name: swipe
+    clip: {fileID: 8300000, guid: 78bfe0e116e7c5849b9ecca12e86ebbc, type: 3}
+    volume: 0.85
+  - name: tap
+    clip: {fileID: 8300000, guid: 0864f27d5b7e76d46983f40a7a59aab9, type: 3}
+    volume: 0.6
+  - name: tick
+    clip: {fileID: 8300000, guid: 4e6f9ef005f875a498b222e2d29b5f4b, type: 3}
+    volume: 0.6
+  - name: warning
+    clip: {fileID: 8300000, guid: 95f549df8965ab64ca995ad39b91b8a5, type: 3}
+    volume: 0.85

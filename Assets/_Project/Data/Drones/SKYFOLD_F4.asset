@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6904768d4fde534fb8c90ef1fdee8c3, type: 3}
+  m_Name: SKYFOLD_F4
+  m_EditorClassIdentifier: DroneTrainer.Runtime::DroneTrainer.Data.DroneDefinition
+  id: SKYFOLD_F4
+  displayName: SKYFOLD F4
+  subtitle: Foldable camera quadcopter
+  difficultyLabel: BEGINNER
+  difficulty: 1
+  locked: 0
+  lockedNote: Coming soon
+  prefab: {fileID: 71818177386578433, guid: 4ba0091879e55db40b7b49bb7f3cd5f7, type: 3}
+  scenarioFile: skyfold_f4_standard.json
+  fallbackScenario: {fileID: 4900000, guid: bdc5907345be01a4e8e8bba91e5a7ee9, type: 3}
+  specs:
+  - label: Span (unfolded)
+    value: "32 \xD7 32 cm"
+  - label: Folded
+    value: "14 \xD7 16.5 cm"
+  - label: Rotors
+    value: "4 \xB7 2-blade"
+  - label: Camera
+    value: Gimbal, front
+  - label: Inspection points
+    value: 4 critical
