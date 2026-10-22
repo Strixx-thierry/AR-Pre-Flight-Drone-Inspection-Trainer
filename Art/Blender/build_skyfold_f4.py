@@ -25,7 +25,14 @@ from mathutils import Vector, Matrix
 # ------------------------------------------------------------------ paths
 argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
 PROJECT = argv[argv.index("--project") + 1] if "--project" in argv else os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-BLEND_OUT = os.path.join(PROJECT, "Art", "Blender", "SKYFOLD_F4.blend")
+DRONE_ID = argv[argv.index("--id") + 1] if "--id" in argv else "SKYFOLD_F4"
+# Variants share the same parts/pivots (same checklist) but differ in size and colour.
+VARIANTS = {
+    "SKYFOLD_F4": dict(scale=1.0, body=(0.78, 0.79, 0.81), mid=(0.60, 0.62, 0.65), suffix=""),
+    "TALON_X4": dict(scale=1.35, body=(0.07, 0.075, 0.085), mid=(0.85, 0.30, 0.04), suffix="_TALON"),
+}
+V = VARIANTS[DRONE_ID]
+BLEND_OUT = os.path.join(PROJECT, "Art", "Blender", f"{DRONE_ID}.blend")
 FBX_DIR = os.path.join(PROJECT, "Assets", "Models", "Drones")
 RENDER_DIR = os.path.join(PROJECT, "Design", "renders")
 for d in (os.path.dirname(BLEND_OUT), FBX_DIR, RENDER_DIR):
@@ -66,11 +73,12 @@ def mat(name, color, rough=0.5, metal=0.0, alpha=1.0, emit=None, emit_strength=0
     return m
 
 M = {
-    "plastic": mat("M_Body_Plastic", (0.78, 0.79, 0.81), rough=0.42, coat=0.35),
-    "plastic_mid": mat("M_Body_PlasticMid", (0.60, 0.62, 0.65), rough=0.5, coat=0.2),
+    "plastic": mat("M_Body_Plastic" + V["suffix"], V["body"], rough=0.42, coat=0.35),
+    "plastic_mid": mat("M_Body_PlasticMid" + V["suffix"], V["mid"], rough=0.5, coat=0.2),
     "dark": mat("M_Dark_Plastic", (0.06, 0.065, 0.07), rough=0.55),
     "prop": mat("M_Propeller", (0.035, 0.038, 0.042), rough=0.38, coat=0.2),
     "prop_tip": mat("M_Propeller_Tip", (0.92, 0.92, 0.92), rough=0.4),
+    "prop_damage": mat("M_Propeller_Damage", (0.72, 0.68, 0.6), rough=0.85),   # stress-whitened plastic at the break
     "metal": mat("M_Motor_Metal", (0.80, 0.81, 0.83), rough=0.22, metal=1.0),
     "metal_dark": mat("M_Metal_Dark", (0.18, 0.19, 0.2), rough=0.3, metal=1.0),
     "glass": mat("M_Lens_Glass", (0.005, 0.006, 0.01), rough=0.03, coat=1.0),
@@ -194,7 +202,7 @@ ARMS = {
     "RR": dict(hinge=(0.034, 0.052, BODY_Z - 0.004), motor=(0.105, 0.105), ccw=False),
 }
 
-root = make_empty("SKYFOLD_F4", (0, 0, 0), size=0.05)
+root = make_empty(DRONE_ID, (0, 0, 0), size=0.05)
 
 
 # ------------------------------------------------------------------ body
@@ -304,13 +312,16 @@ def prop_mesh(bm, ccw=False, R=0.064, chipped=False):
     for blade in range(2):
         N, Mseg = 20, 12
         secs = []
+        broken = chipped and blade == 0
         for i in range(N + 1):
             s = 0.1 + 0.9 * i / N
+            if broken and s > 0.84:
+                break                                                 # tip snapped off
             chord = 0.0065 + 0.0085 * math.sin(math.pi * (0.2 + 0.7 * s))
             if s > 0.88:
                 chord *= 0.25 + 0.75 * math.sqrt(max(0.0, (1 - s) / 0.12))
-            if chipped and blade == 0 and s > 0.74:
-                chord *= 0.55                                         # missing chunk of leading edge
+            if broken and s > 0.6:
+                chord *= (0.42, 0.62, 0.38, 0.55)[i % 4]             # jagged chips along the edge
             thick = 0.0017 * (1 - 0.55 * s)
             twist = math.radians(24 - 15 * s) * sgn
             sweep = 0.006 * s * s * sgn
@@ -321,16 +332,17 @@ def prop_mesh(bm, ccw=False, R=0.064, chipped=False):
                 cz = 0.5 * thick * math.sin(a) + 0.0007 * (1 - (2 * cx / chord) ** 2)
                 y = cx * math.cos(twist) - cz * math.sin(twist)
                 z = cx * math.sin(twist) + cz * math.cos(twist)
-                ring.append(bm.verts.new((s * R, y + sweep, z + 0.003)))
+                bend = 0.009 * ((s - 0.6) / 0.24) ** 2 if broken and s > 0.6 else 0.0   # blade bent upward
+                ring.append(bm.verts.new((s * R, y + sweep, z + 0.003 + bend)))
             secs.append((s, ring))
         new = []
         for (s0, r0), (_, r1) in zip(secs, secs[1:]):
-            mi = 1 if 0.80 <= s0 < 0.855 else 0
+            mi = 4 if broken and s0 >= 0.58 else 1 if 0.80 <= s0 < 0.855 else 0
             for k in range(Mseg):
                 f = bm.faces.new((r0[k], r0[(k + 1) % Mseg], r1[(k + 1) % Mseg], r1[k]))
                 f.material_index = mi
         bm.faces.new(list(reversed(secs[0][1]))).material_index = 0
-        bm.faces.new(secs[-1][1]).material_index = 0
+        bm.faces.new(secs[-1][1]).material_index = 4 if broken else 0
         if blade == 0:
             first = [v for _, r in secs for v in r]
         else:
@@ -394,15 +406,17 @@ def export_fbx(path):
         path_mode='AUTO')
 
 bpy.context.view_layer.update()
+root.scale = (V["scale"],) * 3
+bpy.context.view_layer.update()
 select_tree(root)
-export_fbx(os.path.join(FBX_DIR, "SKYFOLD_F4.fbx"))
+export_fbx(os.path.join(FBX_DIR, f"{DRONE_ID}.fbx"))
 
 # chipped propeller variant (swap the mesh in Unity for fault-hunt / rotor step)
 bm = bmesh.new()
 prop_mesh(bm, ccw=True, chipped=True)
-dmg = make_obj("Prop_Damaged", bm, (0, 0, 0), [M["prop"], M["prop_tip"], M["prop"], M["metal"]], sharp_deg=60)
+dmg = make_obj("Prop_Damaged", bm, (0, 0, 0), [M["prop"], M["prop_tip"], M["prop"], M["metal"], M["prop_damage"]], sharp_deg=60)
 select_tree(dmg)
-export_fbx(os.path.join(FBX_DIR, "SKYFOLD_F4_Prop_Damaged.fbx"))
+export_fbx(os.path.join(FBX_DIR, f"{DRONE_ID}_Prop_Damaged.fbx"))
 dmg.location = (0.22, -0.12, 0.0)   # parked beside the drone in the .blend for reference
 
 
@@ -472,7 +486,7 @@ except Exception:
     pass
 
 def render(name):
-    scene.render.filepath = os.path.join(RENDER_DIR, f"skyfold_{name}.png")
+    scene.render.filepath = os.path.join(RENDER_DIR, f"{DRONE_ID.lower()}_{name}.png")
     bpy.ops.render.render(write_still=True)
 
 dmg.hide_render = True

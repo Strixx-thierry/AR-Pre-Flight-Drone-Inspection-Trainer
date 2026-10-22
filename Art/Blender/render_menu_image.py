@@ -9,7 +9,8 @@ import bpy, os, math
 from mathutils import Vector
 
 PROJECT = os.path.abspath(os.path.join(os.path.dirname(bpy.data.filepath), "..", ".."))
-OUT = os.path.join(PROJECT, "Assets", "_Project", "Art", "UI", "Drones", "skyfold_f4_render.png")
+DRONE_ID = os.path.splitext(os.path.basename(bpy.data.filepath))[0]
+OUT = os.path.join(PROJECT, "Assets", "_Project", "Art", "UI", "Drones", DRONE_ID.lower() + "_render.png")
 scene = bpy.context.scene
 
 for name in ("Studio_Floor", "Prop_Damaged"):
@@ -30,6 +31,8 @@ for l in bpy.data.lights:
 
 cam = scene.camera
 loc, target = Vector((-0.40, -0.56, 0.34)), Vector((0, -0.005, 0.03))
+s = bpy.data.objects[DRONE_ID].scale.x if DRONE_ID in bpy.data.objects else 1.0
+loc, target = loc * s, target * s
 cam.location = loc
 cam.rotation_euler = (target - loc).to_track_quat('-Z', 'Y').to_euler()
 cam.data.lens = 50
