@@ -9,12 +9,14 @@
       "id": "battery",
       "title": "Battery latch",
       "instruction": "Secure the battery",
-      "helper": "Tap the battery, check the charge, then slide the latch until it clicks.",
+      "helper": "Tap the battery: check the 4 charge LEDs (swap it if only 1 is lit), then slide the latch until it clicks.",
       "hint": "An unlatched battery can shift or eject in flight, which means total power loss and a crash.",
       "icon": "battery",
       "type": "Latch",
       "critical": true,
-      "targets": ["Battery_Latch"]
+      "targets": [
+        "Battery_Latch"
+      ]
     },
     {
       "id": "props",
@@ -25,7 +27,12 @@
       "icon": "prop",
       "type": "Verdict",
       "critical": true,
-      "targets": ["Prop_FL", "Prop_FR", "Prop_RR", "Prop_RL"]
+      "targets": [
+        "Prop_FL",
+        "Prop_FR",
+        "Prop_RR",
+        "Prop_RL"
+      ]
     },
     {
       "id": "gimbal",
@@ -36,7 +43,9 @@
       "icon": "gimbal",
       "type": "Remove",
       "critical": true,
-      "targets": ["Gimbal_Clamp"]
+      "targets": [
+        "Gimbal_Clamp"
+      ]
     },
     {
       "id": "calibration",
@@ -51,9 +60,18 @@
     }
   ],
   "faults": {
-    "crackedProps": ["Prop_FR"],
+    "crackedProps": [
+      "Prop_FR"
+    ],
     "batteryStartsUnlocked": true,
     "clampFitted": true,
     "batteryCharge": 3
+  },
+  "faultPool": {
+    "crackedMin": 0,
+    "crackedMax": 2,
+    "unlatchedChance": 0.8,
+    "lowBatteryChance": 0.35,
+    "clampChance": 0.85
   }
 }
