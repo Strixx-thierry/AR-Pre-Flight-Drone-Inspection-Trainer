@@ -116,5 +116,16 @@ MonoBehaviour:
   droneSilhouette: {fileID: 21300000, guid: dabd7a6dbac684345a15d4217e2a524a, type: 3}
   healthBar: {fileID: 21300000, guid: 805c9940cad6d3d4cab30fdd3054d482, type: 3}
   badgeAlert: {fileID: 21300000, guid: 7ef2d6da6701240439c24637c717fef0, type: 3}
-  heroDrone: {fileID: 21300000, guid: c38895c61e6aa224ab2d1f457b4dc00d, type: 3}
+  heroDrone: {fileID: 21300000, guid: b21ac5f029ee2f54a8f5db0d76a629d2, type: 3}
+  railButton: {fileID: 21300000, guid: e284f8826791d4f4492872adc1559242, type: 3}
+  arrowButton: {fileID: 21300000, guid: cbe0b67afd51ea644b779225e2f3f4a2, type: 3}
+  startButton: {fileID: 21300000, guid: 917cc298bea656a42969584e0c9e582c, type: 3}
+  bottomBar: {fileID: 21300000, guid: 94735166378a60346baaaa87668cba28, type: 3}
+  statusTag: {fileID: 21300000, guid: 4a2fab0b975458e4fb54eb9cb346fd97, type: 3}
+  btnPrimary: {fileID: 21300000, guid: 5eaa3eef60526e849b8d5f388eead589, type: 3}
+  btnGhost: {fileID: 21300000, guid: c784b9180c8cdd443a3231dde26af450, type: 3}
+  btnDanger: {fileID: 21300000, guid: e5aabfe51df8f8b4d83afa8c1822681e, type: 3}
+  btnOk: {fileID: 21300000, guid: 1c8fd45b2e1ec5a49a11c38bbc009741, type: 3}
+  btnDisabled: {fileID: 21300000, guid: b34aac5ceb58712448fd30dfd238f19d, type: 3}
+  panelArt: {fileID: 21300000, guid: a62515e77a11d544eb5e819d1e6f1a73, type: 3}
   font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

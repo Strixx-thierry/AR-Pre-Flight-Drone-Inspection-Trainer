@@ -344,6 +344,11 @@ MonoBehaviour:
   isCritical: 1
   highlighter: {fileID: 1230204030092422135}
   damagedMesh: {fileID: -7006232617941611153, guid: 72a9cb5faa9328c4e92cf61a4a4ff0ab, type: 3}
+  damagedMaterials:
+  - {fileID: 2100000, guid: ef07c933e7cf073408f6d86125ad875a, type: 2}
+  - {fileID: 2100000, guid: 328b149ac07b1374dab56aa26e00042f, type: 2}
+  - {fileID: 2100000, guid: 3bb7f340aef5d774d9f92ed1a3dcaf3b, type: 2}
+  - {fileID: 2100000, guid: d445cef4c599db4429390d7e001d68b6, type: 2}
   intactMesh: {fileID: 0}
 --- !u!65 &1812476616109988011
 BoxCollider:
@@ -915,6 +920,11 @@ MonoBehaviour:
   isCritical: 1
   highlighter: {fileID: 1772460722116789737}
   damagedMesh: {fileID: -7006232617941611153, guid: 72a9cb5faa9328c4e92cf61a4a4ff0ab, type: 3}
+  damagedMaterials:
+  - {fileID: 2100000, guid: ef07c933e7cf073408f6d86125ad875a, type: 2}
+  - {fileID: 2100000, guid: 328b149ac07b1374dab56aa26e00042f, type: 2}
+  - {fileID: 2100000, guid: 3bb7f340aef5d774d9f92ed1a3dcaf3b, type: 2}
+  - {fileID: 2100000, guid: d445cef4c599db4429390d7e001d68b6, type: 2}
   intactMesh: {fileID: 0}
 --- !u!65 &5111832947515140029
 BoxCollider:
@@ -2297,6 +2307,11 @@ MonoBehaviour:
   isCritical: 1
   highlighter: {fileID: 3885421658046636000}
   damagedMesh: {fileID: -7006232617941611153, guid: 72a9cb5faa9328c4e92cf61a4a4ff0ab, type: 3}
+  damagedMaterials:
+  - {fileID: 2100000, guid: ef07c933e7cf073408f6d86125ad875a, type: 2}
+  - {fileID: 2100000, guid: 328b149ac07b1374dab56aa26e00042f, type: 2}
+  - {fileID: 2100000, guid: 3bb7f340aef5d774d9f92ed1a3dcaf3b, type: 2}
+  - {fileID: 2100000, guid: d445cef4c599db4429390d7e001d68b6, type: 2}
   intactMesh: {fileID: 0}
 --- !u!65 &2824478141438746270
 BoxCollider:
@@ -2444,6 +2459,11 @@ MonoBehaviour:
   isCritical: 1
   highlighter: {fileID: 1429297886276842229}
   damagedMesh: {fileID: -7006232617941611153, guid: 72a9cb5faa9328c4e92cf61a4a4ff0ab, type: 3}
+  damagedMaterials:
+  - {fileID: 2100000, guid: ef07c933e7cf073408f6d86125ad875a, type: 2}
+  - {fileID: 2100000, guid: 328b149ac07b1374dab56aa26e00042f, type: 2}
+  - {fileID: 2100000, guid: 3bb7f340aef5d774d9f92ed1a3dcaf3b, type: 2}
+  - {fileID: 2100000, guid: d445cef4c599db4429390d7e001d68b6, type: 2}
   intactMesh: {fileID: 0}
 --- !u!65 &831959530351353431
 BoxCollider:

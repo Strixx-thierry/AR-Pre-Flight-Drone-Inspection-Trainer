@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: DroneTrainer.Runtime::DroneTrainer.Data.DroneCatalog
   drones:
   - {fileID: 11400000, guid: e22be38d2c2228d4a852944db2ea102f, type: 2}
-  - {fileID: 11400000, guid: 2a4373c3f59950d48a37d3d64928895a, type: 2}
+  - {fileID: 11400000, guid: 9d4eee887038b1045a32a90e2caff588, type: 2}
   - {fileID: 11400000, guid: c5c794f9d4b3b09498e73d65b4902a6e, type: 2}
-  - {fileID: 11400000, guid: 590eb8a70106f0341a902b1e7115fec5, type: 2}

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6904768d4fde534fb8c90ef1fdee8c3, type: 3}
+  m_Name: TALON_X4
+  m_EditorClassIdentifier: DroneTrainer.Runtime::DroneTrainer.Data.DroneDefinition
+  id: TALON_X4
+  displayName: TALON X4
+  subtitle: Heavy foldable survey quad
+  difficultyLabel: INTERMEDIATE
+  difficulty: 2
+  locked: 0
+  lockedNote: Coming soon
+  prefab: {fileID: 2011652988717162920, guid: de3a654bbbe57304289894f8bcb58cd8, type: 3}
+  heroImage: {fileID: 21300000, guid: a1540feb89d84cd4786d206b8f1231e7, type: 3}
+  scenarioFile: talon_x4_standard.json
+  fallbackScenario: {fileID: 4900000, guid: 3db65dd666b8d52419ab5485cf435eb1, type: 3}
+  specs:
+  - label: Span (unfolded)
+    value: "43 \xD7 43 cm"
+  - label: Rotors
+    value: "4 \xB7 2-blade"
+  - label: Battery
+    value: Low charge risk
+  - label: Inspection points
+    value: 4 critical

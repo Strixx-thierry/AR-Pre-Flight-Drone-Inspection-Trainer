@@ -17,6 +17,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: M_Propeller_Damage
+    second: {fileID: 2100000, guid: 328b149ac07b1374dab56aa26e00042f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: M_Propeller_Tip
     second: {fileID: 2100000, guid: 3bb7f340aef5d774d9f92ed1a3dcaf3b, type: 2}
   materials:
