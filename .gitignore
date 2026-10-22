@@ -75,3 +75,6 @@ desktop.ini
 # Scene builder helper stays local
 /Assets/_Project/Scripts/Editor/SceneBuilders.cs
 /Assets/_Project/Scripts/Editor/SceneBuilders.cs.meta
+
+# Blender backups
+*.blend1
