@@ -33,7 +33,7 @@ namespace DroneTrainer.EditorTools
 
         static void PlayerAndOrientation()
         {
-            PlayerSettings.productName = "AR Pre-Flight Trainer";
+            PlayerSettings.productName = "Pre-Flight Trainer";
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
             PlayerSettings.allowedAutorotateToPortrait = false;
             PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;

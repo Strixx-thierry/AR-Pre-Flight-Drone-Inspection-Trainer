@@ -50,6 +50,21 @@ namespace DroneTrainer.UI
                 case ButtonStyle.Round: bg = UITheme.A(t.panel2, 0.92f); fg = t.text; break;
                 default: bg = t.accent; fg = t.bg0; break;
             }
+            Sprite art = s switch
+            {
+                ButtonStyle.Primary => t.btnPrimary,
+                ButtonStyle.Ghost => t.btnGhost,
+                ButtonStyle.Danger => t.btnDanger,
+                ButtonStyle.Ok => t.btnOk,
+                ButtonStyle.Disabled => t.btnDisabled,
+                _ => null
+            };
+            if (art && background)
+            {
+                background.sprite = art;
+                background.type = UnityEngine.UI.Image.Type.Sliced;
+                bg = Color.white;          // the art carries the colour
+            }
             if (background) background.color = bg;
             if (label) label.color = fg;
             if (icon && icon.sprite) icon.color = fg;

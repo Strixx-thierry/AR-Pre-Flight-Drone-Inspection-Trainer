@@ -11,6 +11,9 @@ namespace DroneTrainer.Drone
     public class RotorModule : AInspectableComponent
     {
         public Mesh damagedMesh;
+        public Material[] damagedMaterials;
+        Material[] intactMaterials;
+        MeshRenderer meshRenderer;
         [SerializeField] Mesh intactMesh;
         MeshFilter filter;
         Vector3 spinAxis = Vector3.up;
@@ -29,6 +32,8 @@ namespace DroneTrainer.Drone
         {
             filter = GetComponent<MeshFilter>();
             if (filter && !intactMesh) intactMesh = filter.sharedMesh;
+            meshRenderer = GetComponent<MeshRenderer>();
+            if (meshRenderer) intactMaterials = meshRenderer.sharedMaterials;
             spinAxis = transform.InverseTransformDirection(DroneRoot.up).normalized;
         }
 
@@ -36,6 +41,7 @@ namespace DroneTrainer.Drone
         {
             HasFault = faults != null && Array.IndexOf(faults.crackedProps, partId) >= 0 && damagedMesh;
             if (filter) filter.sharedMesh = HasFault ? damagedMesh : intactMesh;
+            ApplyMaterials();
             base.ApplyScenario(faults);
         }
 
@@ -53,7 +59,15 @@ namespace DroneTrainer.Drone
         {
             if (filter) filter.sharedMesh = intactMesh;
             HasFault = false;
+            ApplyMaterials();
             SetState(PartState.Fixed);
+        }
+
+        void ApplyMaterials()
+        {
+            if (!meshRenderer || intactMaterials == null) return;
+            meshRenderer.sharedMaterials = HasFault && damagedMaterials != null && damagedMaterials.Length > 0
+                ? damagedMaterials : intactMaterials;
         }
 
         public void SetSpin(float revsPerSecond) => spin = revsPerSecond;

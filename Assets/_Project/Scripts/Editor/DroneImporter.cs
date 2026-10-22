@@ -29,9 +29,12 @@ namespace DroneTrainer.EditorTools
         {
             ["M_Body_Plastic"] = new Look(0.78f, 0.79f, 0.81f, 0.58f),
             ["M_Body_PlasticMid"] = new Look(0.60f, 0.62f, 0.65f, 0.5f),
+            ["M_Body_Plastic_TALON"] = new Look(0.07f, 0.075f, 0.085f, 0.55f),
+            ["M_Body_PlasticMid_TALON"] = new Look(0.85f, 0.30f, 0.04f, 0.5f),
             ["M_Dark_Plastic"] = new Look(0.06f, 0.065f, 0.07f, 0.45f),
             ["M_Propeller"] = new Look(0.035f, 0.038f, 0.042f, 0.62f),
             ["M_Propeller_Tip"] = new Look(0.92f, 0.92f, 0.92f, 0.6f),
+            ["M_Propeller_Damage"] = new Look(0.72f, 0.68f, 0.6f, 0.15f),
             ["M_Motor_Metal"] = new Look(0.80f, 0.81f, 0.83f, 0.78f, 1f),
             ["M_Metal_Dark"] = new Look(0.18f, 0.19f, 0.2f, 0.7f, 1f),
             ["M_Lens_Glass"] = new Look(0.005f, 0.006f, 0.01f, 0.97f),
@@ -67,9 +70,7 @@ namespace DroneTrainer.EditorTools
             }
             if (defs.Count == 0) Debug.LogError("[DroneTrainer] No drone FBX found in " + Paths.Models);
 
-            defs.Add(Placeholder("PICO_GUARD", "PICO GUARD", "Caged palm mini", "Tutorial · coming soon", 1, "TUTORIAL"));
             defs.Add(Placeholder("HEXA_H6", "HEXA H6", "Heavy-lift hexacopter", "Bonus · locked", 3, "ADVANCED"));
-            defs.Add(Placeholder("VTOL_WING", "VTOL WING", "Fixed-wing VTOL", "Bonus · locked", 3, "ADVANCED"));
 
             var catalog = Paths.LoadOrCreate<DroneCatalog>(Paths.Resources + "/DroneCatalog.asset");
             catalog.drones = defs;
@@ -85,10 +86,13 @@ namespace DroneTrainer.EditorTools
             ConfigureModel(path);
             var damagedPath = $"{Paths.Models}/{id}_Prop_Damaged.fbx";
             Mesh damaged = null;
+            Material[] damagedMats = null;
             if (File.Exists(damagedPath))
             {
                 ConfigureModel(damagedPath);
                 damaged = AssetDatabase.LoadAllAssetsAtPath(damagedPath).OfType<Mesh>().FirstOrDefault();
+                var dmgModel = AssetDatabase.LoadAssetAtPath<GameObject>(damagedPath);
+                damagedMats = dmgModel ? dmgModel.GetComponentInChildren<MeshRenderer>()?.sharedMaterials : null;
             }
 
             var model = AssetDatabase.LoadAssetAtPath<GameObject>(path);
@@ -112,6 +116,7 @@ namespace DroneTrainer.EditorTools
                 var r = t.gameObject.AddComponent<RotorModule>();
                 r.Configure("Prop_" + key, "Rotor · " + NiceRotor[key], true);
                 r.damagedMesh = damaged;
+                r.damagedMaterials = damagedMats;
                 AddCollider(t, 1.25f, 0.035f);
                 r.highlighter = AddHighlighter(t, hl);
                 parts++;
@@ -159,6 +164,7 @@ namespace DroneTrainer.EditorTools
             def.locked = false;
             FillMetadata(def);
             def.fallbackScenario = CopyScenario(def.scenarioFile);
+            def.heroImage = AssetDatabase.LoadAssetAtPath<Sprite>($"{UIArtPostprocessor.Folder}Drones/{id.ToLowerInvariant()}_render.png");
             EditorUtility.SetDirty(def);
             return def;
         }
@@ -274,6 +280,21 @@ namespace DroneTrainer.EditorTools
                     new SpecEntry("Folded", "14 × 16.5 cm"),
                     new SpecEntry("Rotors", "4 · 2-blade"),
                     new SpecEntry("Camera", "Gimbal, front"),
+                    new SpecEntry("Inspection points", "4 critical"),
+                };
+            }
+            else if (d.id == "TALON_X4")
+            {
+                d.displayName = "TALON X4";
+                d.subtitle = "Heavy foldable survey quad";
+                d.difficulty = 2;
+                d.difficultyLabel = "INTERMEDIATE";
+                d.scenarioFile = "talon_x4_standard.json";
+                d.specs = new List<SpecEntry>
+                {
+                    new SpecEntry("Span (unfolded)", "43 × 43 cm"),
+                    new SpecEntry("Rotors", "4 · 2-blade"),
+                    new SpecEntry("Battery", "Low charge risk"),
                     new SpecEntry("Inspection points", "4 critical"),
                 };
             }

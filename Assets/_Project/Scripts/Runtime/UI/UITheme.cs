@@ -57,6 +57,7 @@ namespace DroneTrainer.UI
         public Sprite startButton;
         public Sprite bottomBar;
         public Sprite statusTag;
+        public Sprite btnPrimary, btnGhost, btnDanger, btnOk, btnDisabled, panelArt;
 
         [Header("Fonts")]
         public TMP_FontAsset font;

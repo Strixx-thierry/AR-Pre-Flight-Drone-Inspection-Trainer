@@ -55,7 +55,7 @@ namespace DroneTrainer.UI
 
         public void SetSimulator(bool sim)
         {
-            if (sim) helperText.text = "Desk simulator: no AR device detected. Finding the virtual desk…";
+            if (sim) { titleText.text = "PREPARING INSPECTION BAY"; helperText.text = "Loading the 3D workbench. Drag to rotate, pinch or scroll to zoom."; }
         }
 
         public void SetSurfaceCount(int n) =>

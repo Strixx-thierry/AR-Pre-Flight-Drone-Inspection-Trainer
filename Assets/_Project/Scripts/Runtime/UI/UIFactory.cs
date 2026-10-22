@@ -86,7 +86,10 @@ namespace DroneTrainer.UI
 
         public static Image Panel(Transform parent, string name, bool glass = false, bool large = false, bool outline = true)
         {
-            var img = Img(parent, name, glass ? T.glass : UITheme.A(T.panel, 0.94f), large ? T.roundedLarge : T.rounded, true);
+            bool art = !glass && T.panelArt;
+            var img = Img(parent, name, art ? Color.white : glass ? T.glass : UITheme.A(T.panel, 0.94f),
+                          art ? T.panelArt : large ? T.roundedLarge : T.rounded, true);
+            if (art) outline = false;     // the art has its own border
             // Outline duplicates the sprite; on translucent glass those copies tint the fill, so glass gets none.
             if (outline && !glass)
             {

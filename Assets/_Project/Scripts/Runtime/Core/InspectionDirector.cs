@@ -71,7 +71,7 @@ namespace DroneTrainer.Core
 
             bool arOk = false;
 #if DT_ARFOUNDATION
-            if (arPlacement) yield return ARPlacementManager.CheckSupport(ok => arOk = ok);
+            if (GameSession.UseAR && arPlacement) yield return ARPlacementManager.CheckSupport(ok => arOk = ok);
 #endif
             if (arRig) arRig.SetActive(arOk);
             if (simulatorRig) simulatorRig.SetActive(!arOk);
@@ -84,7 +84,14 @@ namespace DroneTrainer.Core
             BindTasks();
             hud.SetTracking(true, Placement.IsAR);
             started = true;
-            fsm.Change(new PlacingState(this, resume: false));
+            if (Placement.IsAR) fsm.Change(new PlacingState(this, resume: false));
+            else
+            {
+                // 3D bay (design change): drone floats in view, no scan/place step
+                Placement.BeginPlacement(Drone.transform);
+                Placement.Confirm();
+                fsm.Change(new InspectionState(this, resume: false));
+            }
         }
 
         void Update()
@@ -232,6 +239,16 @@ namespace DroneTrainer.Core
                     StartCoroutine(CloseAfter(0.7f));
                 }
             };
+            batteryPanel.Swap += () =>
+            {
+                if (openPart is BatteryLatchModule l)
+                {
+                    tasks.SwapBattery(l);
+                    AudioManager.Play("latch");
+                    batteryPanel.Set(l);
+                    StartCoroutine(CloseAfter(0.7f));
+                }
+            };
             batteryPanel.Release += () =>
             {
                 if (openPart is BatteryLatchModule l && l.IsLocked)
@@ -303,7 +320,7 @@ namespace DroneTrainer.Core
                 }
                 dragPart = null;
             };
-            input.SecondaryDrag += delta => Placement.Orbit(delta);
+            input.SecondaryDrag += delta => Placement.Pan(delta);
             input.Pinched += ratio => Placement.Zoom(ratio);
             input.Twisted += deg => { if (fsm.Current is PlacingState) Placement.Rotate(-deg); };
         }
@@ -397,6 +414,13 @@ namespace DroneTrainer.Core
                     break;
             }
             hud.callout.Point(part.transform, Placement.ActiveCamera, part.DisplayName.ToUpperInvariant(), UITheme.Current.accent);
+            Placement.FocusOn(PartCenter(part));
+        }
+
+        static Vector3 PartCenter(AInspectableComponent p)
+        {
+            var r = p.GetComponent<Renderer>();
+            return r ? r.bounds.center : p.transform.position;
         }
 
         void RemoveClamp(GimbalCoverModule g)
@@ -410,6 +434,7 @@ namespace DroneTrainer.Core
             rotorPanel.Hide();
             batteryPanel.Hide();
             gimbalPanel.Hide();
+            if (openPart && Placement != null) Placement.FocusOn(null);
             openPart = null;
             if (tasks.Mode == TrainingMode.Assessment && tasks.IsRunning) tasks.Select(null);
             if (tasks.IsRunning) RefreshCallout();

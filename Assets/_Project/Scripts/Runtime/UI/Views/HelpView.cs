@@ -14,8 +14,8 @@ namespace DroneTrainer.UI
         static readonly string[] Steps =
         {
             "Pick an aircraft in the Hangar and choose Guided or Assessment.",
-            "Scan a flat, well-lit surface, then tap to place the drone at real size.",
-            "Walk around it. Tap glowing parts to inspect and fix them in order.",
+            "Drag to rotate the drone, right-drag or two fingers to pan, scroll or pinch to zoom.",
+            "Tap glowing parts to inspect and fix them in order. The camera focuses on each part.",
             "Try Launch Check. Unsafe items block the launch and count as errors.",
             "Read your report and beat your best time in Records."
         };
@@ -43,7 +43,7 @@ namespace DroneTrainer.UI
             Spacer(v);
             Text(v, "Credits",
                 "Credits: SKYFOLD F4 model built procedurally in Blender for this project. Sound effects synthesised. " +
-                "Not affiliated with any drone manufacturer. Built with Unity AR Foundation.",
+                "Not affiliated with any drone manufacturer. Built with Unity.",
                 22, T.textMute);
         }
 

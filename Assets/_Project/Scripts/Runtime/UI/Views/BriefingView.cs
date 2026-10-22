@@ -38,7 +38,6 @@ namespace DroneTrainer.UI
             estimateText = Text(lh, "Estimate", "~4 min", 24, T.textDim, TextStyle.Body, TextAlignmentOptions.MidlineRight);
             rows = VStack(lv, "Rows", 4);
             Spacer(lv);
-            Text(lv, "Note", "You'll need a flat, well-lit surface about 1 × 1 m.", 24, T.warn);
 
             var right = VStack(c, "Modes", 18);
             right.Span(0.5f, 0.17f, 1, 1, 0, 0, 0, 136);
@@ -47,14 +46,16 @@ namespace DroneTrainer.UI
             assessmentCard = ModeCard(right, "ASSESSMENT", "SCORED",
                 "No glow and no hints. You choose what to inspect, and every miss counts as an error.");
 
-            startButton = Button(c, "Start", "START AR", ButtonStyle.Primary, "target");
+            startButton = Button(c, "Start", "START", ButtonStyle.Primary, "play");
             startButton.RT().At(1, 0, 1, 0, 420, TouchSize);
         }
 
         UIButton ModeCard(Transform parent, string title, string tag, string body)
         {
             var b = Button(parent, "Mode_" + title, null, ButtonStyle.Ghost, null, 230);
-            b.background.sprite = T.roundedLarge;
+            b.background.sprite = T.navTile ? T.navTile : T.roundedLarge;
+            b.background.type = UnityEngine.UI.Image.Type.Sliced;
+            b.style = ButtonStyle.Round;
             var row = b.transform.Find("Row");
             DestroyImmediate(row.GetComponent<UnityEngine.UI.HorizontalLayoutGroup>());
             var v = row.gameObject.AddComponent<UnityEngine.UI.VerticalLayoutGroup>();
@@ -100,7 +101,7 @@ namespace DroneTrainer.UI
 
         void Style(UIButton b, bool on)
         {
-            b.background.color = on ? Color.Lerp(T.panel, T.accent, 0.16f) : T.panel;
+            b.background.color = T.navTile ? (on ? Color.Lerp(Color.white, T.accent, 0.55f) : Color.white) : (on ? Color.Lerp(T.panel, T.accent, 0.16f) : T.panel);
             var o = b.GetComponent<UnityEngine.UI.Outline>();
             if (!o) o = b.gameObject.AddComponent<UnityEngine.UI.Outline>();
             o.effectDistance = new Vector2(3, -3);

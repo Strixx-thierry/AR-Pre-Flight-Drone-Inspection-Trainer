@@ -44,11 +44,11 @@ namespace DroneTrainer.Core
             if (!splashShown)
             {
                 splash.Show();
-                splash.SetProgress(0.15f, "Checking AR support…");
+                splash.SetProgress(0.15f, "Loading hangar…");
 #if DT_ARFOUNDATION
-                yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
+                if (GameSession.UseAR) yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
 #endif
-                splash.SetProgress(0.55f, arReady ? "ARCore OK · Camera OK" :"AR not available. Desk simulator enabled.");
+                splash.SetProgress(0.55f, "Preparing 3D inspection bay…");
                 yield return LoadScenario();
                 splash.SetProgress(0.85f, "Loading checklist…");
                 yield return new WaitForSeconds(0.6f);
@@ -59,7 +59,7 @@ namespace DroneTrainer.Core
             else
             {
 #if DT_ARFOUNDATION
-                yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
+                if (GameSession.UseAR) yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
 #endif
                 yield return LoadScenario();
             }
@@ -111,7 +111,7 @@ namespace DroneTrainer.Core
             current = d;
             GameSession.DroneId = d.id;
             yield return LoadScenario();
-            ShowBriefing();
+            ShowHome();
         }
 
         void Cycle(int dir)

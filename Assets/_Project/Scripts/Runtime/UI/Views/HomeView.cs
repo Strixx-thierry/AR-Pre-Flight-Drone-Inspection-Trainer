@@ -23,10 +23,6 @@ namespace DroneTrainer.UI
         protected override void Build()
         {
             // full-width bottom strip (outside the gutters, like the reference)
-            var bar = Img(transform, "BottomBar", Color.white, T.bottomBar);
-            bar.RT().Span(0, 0, 1, 0, 0, 0, 0, -240);
-            if (T.bottomBar) bar.type = UImage.Type.Sliced;
-            else bar.color = T.panel;
 
             var c = Content();
 
@@ -147,6 +143,7 @@ namespace DroneTrainer.UI
         public void Set(DroneDefinition d, int sessions, float best, int lastScore, bool arReady)
         {
             if (d) droneName.text = d.displayName;
+            if (d && d.heroImage) { heroImage.sprite = d.heroImage; heroImage.color = Color.white; }
             statusTop.text = "MODULE 1";
             statusBottom.text = lastScore >= 0 ? $"SCORE {lastScore}" : "PRE-FLIGHT";
             statusBottom.color = lastScore >= 70 || lastScore < 0 ? T.ok : T.warn;

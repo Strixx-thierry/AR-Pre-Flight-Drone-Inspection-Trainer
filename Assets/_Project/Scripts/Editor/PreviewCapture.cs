@@ -224,7 +224,7 @@ namespace DroneTrainer.EditorTools
             EditorSceneManager.OpenScene(Paths.MenuScene);
             var home = UnityEngine.Object.FindObjectsByType<HomeView>(FindObjectsInactive.Include, FindObjectsSortMode.None)[0];
             home.gameObject.SetActive(true);
-            var t = home.pilotName;
+            var t = home.droneName;
             t.ForceMeshUpdate(true, true);
             var f = t.font;
             Debug.Log($"[Diag] text='{t.text}' font={(f ? f.name : "NULL")} mode={(f ? f.atlasPopulationMode.ToString() : "-")} " +

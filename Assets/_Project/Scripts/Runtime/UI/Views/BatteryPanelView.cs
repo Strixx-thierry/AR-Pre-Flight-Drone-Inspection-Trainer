@@ -12,14 +12,14 @@ namespace DroneTrainer.UI
         public UIChip stateChip;
         public TextMeshProUGUI chargeText, seatedText;
         public SlideConfirm slide;
-        public UIButton releaseButton, closeButton;
-        public event Action Lock, Release, Close;
+        public UIButton releaseButton, closeButton, swapButton;
+        public event Action Lock, Release, Close, Swap;
 
         protected override void Build()
         {
             var c = Content();
             var p = Panel(c, "Panel", glass: true, large: true);
-            p.RT().At(1, 0, 1, 0, 680, 470);
+            p.RT().At(1, 0, 1, 0, 680, 560);
             var v = VStack(p.transform, "V", 10, TextAnchor.UpperLeft, new RectOffset(32, 32, 26, 26));
             v.Fill();
             var head = HStack(v, "Head", 12);
@@ -31,6 +31,7 @@ namespace DroneTrainer.UI
             Spacer(v);
             slide = SlideConfirm.Create(v, "SlideLock", "SLIDE TO LOCK", "lock", T.warn);
             releaseButton = Button(v, "Release", "RELEASE LATCH", ButtonStyle.Ghost, "unlock");
+            swapButton = Button(v, "Swap", "SWAP BATTERY", ButtonStyle.Danger, "battery");
         }
 
         protected override void Bind()
@@ -38,6 +39,7 @@ namespace DroneTrainer.UI
             slide.Confirmed += () => Lock?.Invoke();
             releaseButton.Clicked += () => Release?.Invoke();
             closeButton.Clicked += () => Close?.Invoke();
+            swapButton.Clicked += () => Swap?.Invoke();
         }
 
         public void Set(BatteryLatchModule latch)
@@ -49,7 +51,9 @@ namespace DroneTrainer.UI
             chargeText.color = latch.Charge >= 2 ? T.ok : T.danger;
             slide.gameObject.SetActive(!locked);
             slide.ResetSlider();
-            releaseButton.gameObject.SetActive(locked);
+            releaseButton.gameObject.SetActive(locked && !latch.LowCharge);
+            swapButton.gameObject.SetActive(latch.LowCharge);
+            if (latch.LowCharge) stateChip.Set("LOW CHARGE", ChipStyle.Danger);
         }
     }
 }

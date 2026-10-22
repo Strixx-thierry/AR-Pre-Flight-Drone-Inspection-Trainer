@@ -22,7 +22,7 @@ namespace DroneTrainer.UI
             Scrim(new Color(0.16f, 0.015f, 0.03f, 0.72f));
             var m = Panel(transform, "Modal", large: true);
             m.RT().At(0.5f, 0.5f, 0.5f, 0.5f, 1180, 780);
-            m.GetComponent<UnityEngine.UI.Outline>().effectColor = UITheme.A(T.danger, 0.8f);
+            AccentBar(m.transform, T.danger);
             var v = VStack(m.transform, "V", 12, TextAnchor.UpperLeft, new RectOffset(48, 48, 40, 40));
             v.Fill();
             var head = HStack(v, "Head", 18);

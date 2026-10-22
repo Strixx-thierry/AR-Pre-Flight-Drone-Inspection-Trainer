@@ -6,18 +6,22 @@ using UnityEngine.InputSystem;
 namespace DroneTrainer.AR
 {
     /// <summary>
-    /// Desk simulator: the full flow without an AR device (editor testing and a demo fallback).
-    /// Press T in the editor to simulate a tracking loss.
+    /// 3D inspection viewer (design change: replaces AR placement, see Docs/DesignChanges.md).
+    /// Sketchfab-style controls: drag = orbit (incl. underneath), right-drag / two fingers = pan,
+    /// scroll / pinch = zoom, smooth damping, and the camera glides to a part when it is opened.
+    /// F = frame the whole drone. T = demo the tracking-loss overlay.
     /// </summary>
     public class SimulatorPlacement : MonoBehaviour, IPlacementProvider
     {
         public Camera simCamera;
         public Collider deskSurface;
-        public float scanDelay = 1.4f;
-        [Header("Orbit")]
-        public float distance = 0.75f;
-        public float yaw = -35f, pitch = 32f;
-        public float minDistance = 0.25f, maxDistance = 1.6f;
+        public float scanDelay = 0.2f;
+        [Header("Viewer")]
+        public float distance = 0.55f;
+        public float yaw = -35f, pitch = 25f;
+        public float minDistance = 0.08f, maxDistance = 1.6f;
+        public float damping = 10f;
+        public float orbitSpeed = 0.3f;
 
         public bool IsAR => false;
         public bool HasSurface { get; private set; }
@@ -30,15 +34,20 @@ namespace DroneTrainer.AR
         public event Action<bool> TrackingChanged;
 
         Transform drone;
-        Vector3 focus;
-        float scale = 1f;
+        Vector3 focus, focusTarget, home;
+        float yawTarget, pitchTarget, distTarget, homeDist;
+
+        void Awake()
+        {
+            yawTarget = yaw; pitchTarget = pitch; distTarget = homeDist = distance;
+        }
 
         public void Activate()
         {
             gameObject.SetActive(true);
             if (simCamera) simCamera.gameObject.SetActive(true);
-            focus = deskSurface ? deskSurface.bounds.center + Vector3.up * deskSurface.bounds.extents.y : Vector3.zero;
-            ApplyOrbit();
+            focus = focusTarget = deskSurface ? deskSurface.bounds.center + Vector3.up * deskSurface.bounds.extents.y : Vector3.zero;
+            Apply();
             StartCoroutine(FakeScan());
         }
 
@@ -54,7 +63,7 @@ namespace DroneTrainer.AR
             drone = d;
             IsPlaced = false;
             drone.gameObject.SetActive(true);
-            drone.position = focus;
+            drone.position = focusTarget;
         }
 
         public bool TryPlaceAt(Vector2 screenPos)
@@ -71,36 +80,58 @@ namespace DroneTrainer.AR
         }
 
         public void Rotate(float degrees) { if (drone) drone.Rotate(Vector3.up, degrees, Space.World); }
+        public void SetScale(float s) { if (drone) drone.localScale = Vector3.one * s; }
+        public void Reposition() { IsPlaced = false; if (drone) drone.position = focusTarget; }
 
-        public void SetScale(float s)
-        {
-            scale = s;
-            if (drone) drone.localScale = Vector3.one * s;
-        }
-
-        public void Reposition() { IsPlaced = false; if (drone) drone.position = focus; }
-
+        /// <summary>Centres the view on the drone and remembers it as the "home" view.</summary>
         public void Confirm()
         {
             IsPlaced = true;
-            if (drone) focus = drone.position + Vector3.up * 0.03f * scale;
-            ApplyOrbit();
+            var b = DroneBounds();
+            home = b.center;
+            homeDist = Mathf.Clamp(b.size.magnitude * 1.6f, minDistance, maxDistance);
+            focus = focusTarget = home;
+            distance = distTarget = homeDist;
+            Apply();
         }
 
         public void Orbit(Vector2 delta)
         {
-            yaw += delta.x * 0.25f;
-            pitch = Mathf.Clamp(pitch - delta.y * 0.2f, 5f, 85f);
-            ApplyOrbit();
+            yawTarget += delta.x * orbitSpeed;
+            pitchTarget = Mathf.Clamp(pitchTarget - delta.y * orbitSpeed * 0.8f, -85f, 85f);
         }
 
-        public void Zoom(float ratio)
+        public void Pan(Vector2 delta)
         {
-            distance = Mathf.Clamp(distance / Mathf.Max(0.01f, ratio), minDistance, maxDistance);
-            ApplyOrbit();
+            if (!simCamera) return;
+            float k = distance * 0.0016f;
+            var t = simCamera.transform;
+            focusTarget -= (t.right * delta.x + t.up * delta.y) * k;
         }
 
-        void ApplyOrbit()
+        public void Zoom(float ratio) =>
+            distTarget = Mathf.Clamp(distTarget / Mathf.Max(0.01f, ratio), minDistance, maxDistance);
+
+        /// <summary>Glide to a point (e.g. the part being inspected). Null = back to the whole drone.</summary>
+        public void FocusOn(Vector3? point, float dist = -1)
+        {
+            focusTarget = point ?? home;
+            distTarget = point.HasValue ? (dist > 0 ? dist : homeDist * 0.45f) : homeDist;
+        }
+
+        Bounds DroneBounds()
+        {
+            if (!drone) return new Bounds(focusTarget, Vector3.one * 0.3f);
+            Bounds? b = null;
+            foreach (var r in drone.GetComponentsInChildren<Renderer>())
+            {
+                if (r.name.EndsWith("_Highlight")) continue;
+                if (b == null) b = r.bounds; else { var x = b.Value; x.Encapsulate(r.bounds); b = x; }
+            }
+            return b ?? new Bounds(drone.position, Vector3.one * 0.3f);
+        }
+
+        void Apply()
         {
             if (!simCamera) return;
             var rot = Quaternion.Euler(pitch, yaw, 0);
@@ -108,14 +139,26 @@ namespace DroneTrainer.AR
             simCamera.transform.rotation = rot;
         }
 
+        void LateUpdate()
+        {
+            float k = 1f - Mathf.Exp(-damping * Time.unscaledDeltaTime);
+            yaw = Mathf.LerpAngle(yaw, yawTarget, k);
+            pitch = Mathf.Lerp(pitch, pitchTarget, k);
+            distance = Mathf.Lerp(distance, distTarget, k);
+            focus = Vector3.Lerp(focus, focusTarget, k);
+            Apply();
+        }
+
         void Update()
         {
             var kb = Keyboard.current;
-            if (kb != null && kb.tKey.wasPressedThisFrame)
+            if (kb == null) return;
+            if (kb.tKey.wasPressedThisFrame)
             {
                 IsTracking = !IsTracking;
                 TrackingChanged?.Invoke(IsTracking);
             }
+            if (kb.fKey.wasPressedThisFrame) FocusOn(null);
         }
     }
 }

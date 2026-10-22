@@ -19,6 +19,7 @@ namespace DroneTrainer.UI
             s.haptics = Row(v, "vibrate", "Haptics");
             s.hints = Row(v, "help", "Show hints (Guided)");
             s.planes = Row(v, "target", "Show detected surfaces");
+            s.planes.transform.parent.gameObject.SetActive(GameSession.UseAR);   // AR-only setting
             return s;
         }
 

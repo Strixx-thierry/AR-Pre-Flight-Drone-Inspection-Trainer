@@ -35,7 +35,7 @@ namespace DroneTrainer.UI
             pv.Fill();
             Icon(pv, "Icon", "eye", 96, T.accent);
             guidanceText = Text(pv, "Guidance",
-                "Move your phone close to the blade. Check the leading edge and tip for chips, cracks or bends.",
+                "Zoom in and rotate around the blade. Check the leading edge and tip for chips, cracks or bends.",
                 27, T.textDim);
             guidanceText.Size(-1, -1, 1);
 

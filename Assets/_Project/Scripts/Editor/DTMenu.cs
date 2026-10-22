@@ -75,7 +75,6 @@ namespace DroneTrainer.EditorTools
         public static void Validate() => ProjectValidator.Run();
         public static void SfxForce() => SfxGenerator.Run(force: true);
 
-        [MenuItem(M + "Build Android APK", priority = 2)]
         public static void Apk() => AndroidBuilder.Build();
         public static void OpenMenu() { if (SaveGuard()) EditorSceneManager.OpenScene(Paths.MenuScene); }
 

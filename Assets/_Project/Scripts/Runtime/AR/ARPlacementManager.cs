@@ -156,6 +156,8 @@ namespace DroneTrainer.AR
 
         public void Orbit(Vector2 screenDelta) { }
         public void Zoom(float ratio) { }
+        public void Pan(Vector2 screenDelta) { }
+        public void FocusOn(Vector3? point, float distance = -1) { }
     }
 }
 #endif

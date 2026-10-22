@@ -62,7 +62,9 @@ namespace DroneTrainer.Drone
         public void Set(HighlightState state)
         {
             EnsureShells();
+            if (block == null) block = new MaterialPropertyBlock();
             Current = state;
+            if (shells.Length == 0) return;   // no highlight material assigned: nothing to draw
             bool on = state != HighlightState.Off;
             if (on)
             {

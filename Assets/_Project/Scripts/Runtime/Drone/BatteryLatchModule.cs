@@ -16,8 +16,10 @@ namespace DroneTrainer.Drone
         public bool IsLocked { get; private set; }
         public int Charge { get; private set; } = 4;
         public override PartKind Kind => PartKind.Toggle;
-        public override bool IsSafe => IsLocked;
-        public override string StatusLabel => IsLocked ? "LOCKED" : "UNLOCKED";
+        public const int MinCharge = 2;
+        public bool LowCharge => Charge < MinCharge;
+        public override bool IsSafe => IsLocked && !LowCharge;
+        public override string StatusLabel => LowCharge ? "LOW CHARGE" : IsLocked ? "LOCKED" : "UNLOCKED";
 
         Quaternion closedRot;
         Vector3 hingeAxis = Vector3.right;
@@ -42,6 +44,16 @@ namespace DroneTrainer.Drone
 
         public void Toggle() => SetLocked(!IsLocked, instant: false);
 
+        /// <summary>Fit a fully charged pack (locked afterwards).</summary>
+        public void SwapBattery()
+        {
+            Charge = 4;
+            for (int i = 0; i < chargeLeds.Length; i++)
+                if (chargeLeds[i]) chargeLeds[i].sharedMaterial = ledOn;
+            SetLocked(true, instant: false);
+            Notify();
+        }
+
         void SetLocked(bool locked, bool instant)
         {
             IsLocked = locked;
@@ -49,7 +61,7 @@ namespace DroneTrainer.Drone
             if (anim != null) StopCoroutine(anim);
             if (instant || !isActiveAndEnabled) transform.localRotation = target;
             else anim = StartCoroutine(Rotate(target));
-            if (!instant) SetState(locked ? PartState.Passed : PartState.Unchecked);
+            if (!instant) SetState(locked && !LowCharge ? PartState.Passed : PartState.Unchecked);
         }
 
         IEnumerator Rotate(Quaternion target)

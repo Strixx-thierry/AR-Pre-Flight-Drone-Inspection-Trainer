@@ -23,6 +23,7 @@ namespace DroneTrainer.Data
         public bool locked;
         public string lockedNote = "Coming soon";
         public GameObject prefab;
+        public Sprite heroImage;
         public string scenarioFile;
         public TextAsset fallbackScenario;
         public List<SpecEntry> specs = new List<SpecEntry>();

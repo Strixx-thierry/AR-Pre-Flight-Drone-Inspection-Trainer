@@ -55,6 +55,12 @@ namespace DroneTrainer.EditorTools
             theme.startButton = Art("Buttons/btn_start");
             theme.bottomBar = Art("Panels/bottom_bar");
             theme.statusTag = Art("Panels/status_tag");
+            theme.btnPrimary = Art("Buttons/btn_primary");
+            theme.btnGhost = Art("Buttons/btn_ghost");
+            theme.btnDanger = Art("Buttons/btn_danger");
+            theme.btnOk = Art("Buttons/btn_ok");
+            theme.btnDisabled = Art("Buttons/btn_disabled");
+            theme.panelArt = Art("Panels/panel");
             EditorUtility.SetDirty(theme);
 
             BuildMaterials();

@@ -20,6 +20,8 @@ namespace DroneTrainer.Data
         public float targetSeconds = 240;
         public StepConfig[] steps = Array.Empty<StepConfig>();
         public FaultConfig faults = new FaultConfig();
+        /// <summary>Optional: when present, each run rolls its own faults from this pool.</summary>
+        public FaultPool faultPool;
 
         public static ScenarioConfig FromJson(string json) => JsonUtility.FromJson<ScenarioConfig>(json);
 
@@ -45,6 +47,36 @@ namespace DroneTrainer.Data
         public string[] targets = Array.Empty<string>();
 
         public bool IsCalibration => type == "Calibration";
+    }
+
+    /// <summary>
+    /// Per-run fault randomisation. Weights follow UK CAA CAP 2534 (pre-flight checking and
+    /// battery/power management are the leading human-error contributors) and pilot reports.
+    /// </summary>
+    [Serializable]
+    public class FaultPool
+    {
+        public int crackedMin = 0;
+        public int crackedMax = 2;
+        public float unlatchedChance = 0.8f;
+        public float lowBatteryChance = 0.35f;
+        public float clampChance = 0.85f;
+
+        public FaultConfig Roll(string[] rotorIds)
+        {
+            var rng = new System.Random();
+            var pool = new System.Collections.Generic.List<string>(rotorIds);
+            int n = Math.Min(pool.Count, rng.Next(crackedMin, crackedMax + 1));
+            var cracked = new string[n];
+            for (int i = 0; i < n; i++) { int k = rng.Next(pool.Count); cracked[i] = pool[k]; pool.RemoveAt(k); }
+            return new FaultConfig
+            {
+                crackedProps = cracked,
+                batteryStartsUnlocked = rng.NextDouble() < unlatchedChance,
+                batteryCharge = rng.NextDouble() < lowBatteryChance ? 1 : rng.Next(3, 5),
+                clampFitted = rng.NextDouble() < clampChance,
+            };
+        }
     }
 
     [Serializable]

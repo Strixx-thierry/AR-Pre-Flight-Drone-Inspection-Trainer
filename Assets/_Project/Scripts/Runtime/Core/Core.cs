@@ -13,6 +13,10 @@ namespace DroneTrainer.Core
         public static TrainingMode Mode = TrainingMode.Guided;
         public static SessionResult LastResult;
         public static bool OpenRecordsOnMenu;
+        /// <summary>Design change (see Docs/DesignChanges.md): training runs in a 3D inspection bay, AR kept but off.</summary>
+        public const bool UseAR = false;
+        /// <summary>Roll faults from the scenario pool each run (tests switch this off for repeatability).</summary>
+        public static bool RandomizeFaults = true;
     }
 
     public static class SceneNames

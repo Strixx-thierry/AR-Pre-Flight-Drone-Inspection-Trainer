@@ -37,18 +37,14 @@ namespace DroneTrainer.Tests
             ProgressStore.Clear();
             GameSession.DroneId = "SKYFOLD_F4";
             GameSession.Mode = TrainingMode.Guided;
+            GameSession.RandomizeFaults = false;   // fixed faults from the JSON
             SceneManager.LoadScene(SceneNames.ARInspection);
             yield return new WaitForSeconds(2.5f);
 
             var d = Object.FindAnyObjectByType<InspectionDirector>();
             Assert.NotNull(d, "InspectionDirector missing");
             Assert.IsFalse(d.Placement.IsAR, "Editor should use the desk simulator");
-            Assert.IsTrue(d.place.IsVisible, "Place view should show once the desk is 'found'");
-
-            Assert.IsTrue(d.Placement.TryPlaceAt(new Vector2(Screen.width * 0.5f, Screen.height * 0.5f)), "Tap-to-place missed the desk");
-            d.place.confirmButton.button.onClick.Invoke();
-            yield return null;
-            Assert.IsTrue(d.hud.IsVisible, "HUD should show after confirming placement");
+            Assert.IsTrue(d.hud.IsVisible, "3D bay should open straight into the inspection HUD");
 
             var tm = d.tasks;
             var drone = d.Drone;

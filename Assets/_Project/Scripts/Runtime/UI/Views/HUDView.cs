@@ -134,7 +134,7 @@ namespace DroneTrainer.UI
 
         public void SetTracking(bool ok, bool isAR)
         {
-            trackingPill.SetText(isAR ? (ok ? "AR" : "LOST") : "SIM");
+            trackingPill.SetText(isAR ? (ok ? "AR" : "LOST") : "3D");
             if (trackingPill.icon) trackingPill.icon.color = ok ? T.ok : T.warn;
         }
 

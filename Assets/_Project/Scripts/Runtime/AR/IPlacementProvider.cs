@@ -28,5 +28,7 @@ namespace DroneTrainer.AR
         void Confirm();
         void Orbit(Vector2 screenDelta);
         void Zoom(float ratio);
+        void Pan(Vector2 screenDelta);
+        void FocusOn(Vector3? point, float distance = -1);
     }
 }

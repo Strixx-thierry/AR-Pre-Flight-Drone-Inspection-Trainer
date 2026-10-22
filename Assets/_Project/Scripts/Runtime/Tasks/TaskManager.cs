@@ -29,6 +29,7 @@ namespace DroneTrainer.Tasks
         public bool CalibrationDone { get; private set; }
         public bool CalibrationComplete { get; private set; }
         public AInspectableComponent Selected { get; private set; }
+        public FaultConfig ActiveFaults { get; private set; }
         public readonly List<ErrorEntry> Errors = new List<ErrorEntry>();
 
         public int StepCount => Scenario?.steps.Length ?? 0;
@@ -62,7 +63,9 @@ namespace DroneTrainer.Tasks
             stepEnd = Enumerable.Repeat(-1f, StepCount).ToArray();
             stepErrors = new int[StepCount];
 
-            drone.ApplyScenario(scenario.faults);
+            var rotors = drone.PartsOf<RotorModule>().Select(r => r.PartId).ToArray();
+            ActiveFaults = scenario.faultPool != null && GameSession.RandomizeFaults ? scenario.faultPool.Roll(rotors) : scenario.faults;
+            drone.ApplyScenario(ActiveFaults);
             foreach (var p in drone.Parts) p.StateChanged += OnPartChanged;
             CurrentStepIndex = -1;
             IsRunning = true;
@@ -174,8 +177,17 @@ namespace DroneTrainer.Tasks
         public void ToggleLatch(BatteryLatchModule latch)
         {
             latch.Toggle();
-            Say(latch.IsLocked ? "Battery latch locked." : "Battery latch released.",
-                latch.IsLocked ? FeedbackKind.Success : FeedbackKind.Warning);
+            if (latch.IsLocked && latch.LowCharge)
+                Say("Latched, but charge is too low for flight. Swap the battery.", FeedbackKind.Warning);
+            else
+                Say(latch.IsLocked ? "Battery latch locked." : "Battery latch released.",
+                    latch.IsLocked ? FeedbackKind.Success : FeedbackKind.Warning);
+        }
+
+        public void SwapBattery(BatteryLatchModule latch)
+        {
+            latch.SwapBattery();
+            Say("Fresh battery fitted and latched.", FeedbackKind.Success);
         }
 
         public void RemoveClamp(GimbalCoverModule clamp)
