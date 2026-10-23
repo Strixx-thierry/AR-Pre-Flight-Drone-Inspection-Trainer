@@ -161,6 +161,11 @@ namespace DroneTrainer.EditorTools
             var def = Paths.LoadOrCreate<DroneDefinition>($"{Paths.Data}/Drones/{id}.asset");
             def.id = id;
             def.prefab = prefab;
+#if DT_ADDRESSABLES
+            // Addressables: the model is loaded on demand, so the catalog must NOT hold a hard reference
+            def.address = RegisterAddressable(prefabPath, id);
+            def.prefab = null;
+#endif
             def.locked = false;
             FillMetadata(def);
             def.fallbackScenario = CopyScenario(def.scenarioFile);
@@ -168,6 +173,21 @@ namespace DroneTrainer.EditorTools
             EditorUtility.SetDirty(def);
             return def;
         }
+
+#if DT_ADDRESSABLES
+        static string RegisterAddressable(string assetPath, string address)
+        {
+            var settings = UnityEditor.AddressableAssets.AddressableAssetSettingsDefaultObject.GetSettings(true);
+            var group = settings.FindGroup("Drones") ?? settings.CreateGroup("Drones", false, false, true, null,
+                typeof(UnityEditor.AddressableAssets.Settings.GroupSchemas.BundledAssetGroupSchema),
+                typeof(UnityEditor.AddressableAssets.Settings.GroupSchemas.ContentUpdateGroupSchema));
+            var entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID(assetPath), group);
+            entry.address = address;
+            entry.SetLabel("drone", true, true);
+            EditorUtility.SetDirty(settings);
+            return address;
+        }
+#endif
 
         static void ConfigureModel(string path)
         {

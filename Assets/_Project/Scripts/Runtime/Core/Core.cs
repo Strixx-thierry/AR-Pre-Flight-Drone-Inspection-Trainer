@@ -14,7 +14,7 @@ namespace DroneTrainer.Core
         public static SessionResult LastResult;
         public static bool OpenRecordsOnMenu;
         /// <summary>Design change (see Docs/DesignChanges.md): training runs in a 3D inspection bay, AR kept but off.</summary>
-        public const bool UseAR = false;
+        public static bool UseAR;            // chosen per session on the Briefing screen (AR is an optional add-on)
         /// <summary>Roll faults from the scenario pool each run (tests switch this off for repeatability).</summary>
         public static bool RandomizeFaults = true;
     }

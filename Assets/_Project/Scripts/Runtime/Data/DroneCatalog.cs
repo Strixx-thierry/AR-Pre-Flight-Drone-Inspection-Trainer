@@ -13,13 +13,13 @@ namespace DroneTrainer.Data
 
         public DroneDefinition Find(string id)
         {
-            foreach (var d in drones) if (d && d.id == id && !d.locked && d.prefab) return d;
+            foreach (var d in drones) if (d && d.id == id && !d.locked && d.HasModel) return d;
             return FirstUnlocked();
         }
 
         public DroneDefinition FirstUnlocked()
         {
-            foreach (var d in drones) if (d && !d.locked && d.prefab) return d;
+            foreach (var d in drones) if (d && !d.locked && d.HasModel) return d;
             return null;
         }
     }

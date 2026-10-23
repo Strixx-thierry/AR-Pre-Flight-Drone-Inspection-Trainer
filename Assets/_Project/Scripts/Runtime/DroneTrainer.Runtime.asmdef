@@ -7,7 +7,9 @@
         "UnityEngine.UI",
         "Unity.XR.ARFoundation",
         "Unity.XR.ARSubsystems",
-        "Unity.XR.CoreUtils"
+        "Unity.XR.CoreUtils",
+        "Unity.Addressables",
+        "Unity.ResourceManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -21,6 +23,11 @@
             "name": "com.unity.xr.arfoundation",
             "expression": "5.0.0",
             "define": "DT_ARFOUNDATION"
+        },
+        {
+            "name": "com.unity.addressables",
+            "expression": "2.0.0",
+            "define": "DT_ADDRESSABLES"
         }
     ],
     "noEngineReferences": false

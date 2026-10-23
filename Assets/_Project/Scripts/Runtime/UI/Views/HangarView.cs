@@ -124,7 +124,7 @@ namespace DroneTrainer.UI
                 dot.preserveAspect = true;
                 dot.Size(22, 22);
             }
-            selectButton.SetInteractable(!d.locked && d.prefab);
+            selectButton.SetInteractable(!d.locked && d.HasModel);
             selectButton.SetLabel(d.locked ? "COMING SOON" : "SELECT");
             Focused?.Invoke(d);
         }

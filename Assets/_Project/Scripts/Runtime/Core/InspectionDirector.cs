@@ -46,6 +46,8 @@ namespace DroneTrainer.Core
         DroneDefinition def;
         ScenarioConfig scenario;
         readonly StateMachine fsm = new StateMachine();
+        readonly DroneAssetLoader droneAsset = new DroneAssetLoader();
+        FeedbackPopupPool popups;
         AInspectableComponent openPart, dragPart;
         float scale = 1f, lostSince = -1f, bestBefore;
         bool trackingOk = true, started, inspectionBegun;
@@ -64,10 +66,11 @@ namespace DroneTrainer.Core
             if (scenario == null) { SceneNames.Load(SceneNames.MainMenu); yield break; }
             bestBefore = ProgressStore.BestTime(def.id);
 
-            var go = Instantiate(def.prefab);
-            go.name = def.prefab.name;
-            Drone = go.GetComponent<DroneController>();
-            go.SetActive(false);
+            yield return droneAsset.Load(def);          // Addressables: load only the selected drone
+            if (!droneAsset.Instance) { Debug.LogError("[AR] Drone model failed to load"); yield break; }
+            Drone = droneAsset.Instance.GetComponent<DroneController>();
+            Drone.gameObject.SetActive(false);
+            popups = hud.gameObject.AddComponent<FeedbackPopupPool>();
 
             bool arOk = false;
 #if DT_ARFOUNDATION
@@ -93,6 +96,9 @@ namespace DroneTrainer.Core
                 fsm.Change(new InspectionState(this, resume: false));
             }
         }
+
+        // leaving the scene releases the drone asset (Addressables.Release)
+        void OnDestroy() => droneAsset.Dispose();
 
         void Update()
         {
@@ -332,6 +338,10 @@ namespace DroneTrainer.Core
             tasks.Feedback += (msg, kind) =>
             {
                 hud.ShowFeedback(msg, kind);
+                if (kind != FeedbackKind.Info)
+                    popups.Spawn(kind switch { FeedbackKind.Success => "OK", FeedbackKind.Warning => "ACTION NEEDED", _ => "CHECK AGAIN" },
+                                 kind == FeedbackKind.Success ? UITheme.Current.ok : kind == FeedbackKind.Warning ? UITheme.Current.warn : UITheme.Current.danger,
+                                 Placement.ActiveCamera, openPart ? PartCenter(openPart) : (Vector3?)null);
                 AudioManager.Play(kind switch
                 {
                     FeedbackKind.Success => "success",
@@ -341,6 +351,8 @@ namespace DroneTrainer.Core
                 });
                 if (kind == FeedbackKind.Error) AudioManager.Haptic();
             };
+            tasks.ErrorLogged += e => popups.Spawn(e.severity == ErrorSeverity.Safety ? "+1 SAFETY ERROR" : "+1 MINOR ERROR",
+                                                   e.severity == ErrorSeverity.Safety ? UITheme.Current.danger : UITheme.Current.warn);
             tasks.LaunchBlocked += blocking =>
             {
                 AudioManager.Play("blocked");

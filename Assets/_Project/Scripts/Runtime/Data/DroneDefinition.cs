@@ -22,7 +22,9 @@ namespace DroneTrainer.Data
         [Range(1, 3)] public int difficulty = 1;
         public bool locked;
         public string lockedNote = "Coming soon";
-        public GameObject prefab;
+        [Tooltip("Only used when Addressables is not installed")] public GameObject prefab;
+        [Tooltip("Addressables key of the 3D model (group 'Drones')")] public string address;
+        public bool HasModel => prefab || !string.IsNullOrEmpty(address);
         public Sprite heroImage;
         public string scenarioFile;
         public TextAsset fallbackScenario;

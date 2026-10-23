@@ -11,11 +11,14 @@ namespace DroneTrainer.UI
     /// <summary>S04 mission briefing &amp; mode select. Checklist rows are built from the JSON (Factory).</summary>
     public class BriefingView : UIView
     {
-        public UIButton backButton, startButton, guidedCard, assessmentCard;
+        public UIButton backButton, startButton, startARButton, guidedCard, assessmentCard;
         public TextMeshProUGUI moduleText, titleText, countText, estimateText;
         public RectTransform rows;
         public event Action Back;
-        public event Action<TrainingMode> StartRequested;
+        public event Action<TrainingMode> StartRequested, StartARRequested;
+
+        /// <summary>AR add-on button only on ARCore-capable devices.</summary>
+        public void SetARAvailable(bool ok) => startARButton.gameObject.SetActive(ok);
         TrainingMode mode = TrainingMode.Guided;
 
         protected override void Build()
@@ -48,6 +51,9 @@ namespace DroneTrainer.UI
 
             startButton = Button(c, "Start", "START", ButtonStyle.Primary, "play");
             startButton.RT().At(1, 0, 1, 0, 420, TouchSize);
+            startARButton = Button(c, "StartAR", "START IN AR", ButtonStyle.Ghost, "target");
+            startARButton.RT().At(1, 0, 1, 0, 440, TouchSize, -450, 0);
+            startARButton.gameObject.SetActive(false);
         }
 
         UIButton ModeCard(Transform parent, string title, string tag, string body)
@@ -77,6 +83,7 @@ namespace DroneTrainer.UI
             guidedCard.Clicked += () => SetMode(TrainingMode.Guided);
             assessmentCard.Clicked += () => SetMode(TrainingMode.Assessment);
             startButton.Clicked += () => StartRequested?.Invoke(mode);
+            startARButton.Clicked += () => StartARRequested?.Invoke(mode);
         }
 
         public void Open(DroneDefinition d, ScenarioConfig s, TrainingMode current)

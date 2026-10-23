@@ -46,7 +46,7 @@ namespace DroneTrainer.Core
                 splash.Show();
                 splash.SetProgress(0.15f, "Loading hangar…");
 #if DT_ARFOUNDATION
-                if (GameSession.UseAR) yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
+                yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
 #endif
                 splash.SetProgress(0.55f, "Preparing 3D inspection bay…");
                 yield return LoadScenario();
@@ -59,7 +59,7 @@ namespace DroneTrainer.Core
             else
             {
 #if DT_ARFOUNDATION
-                if (GameSession.UseAR) yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
+                yield return ARPlacementManager.CheckSupport(ok => arReady = ok);
 #endif
                 yield return LoadScenario();
             }
@@ -85,7 +85,7 @@ namespace DroneTrainer.Core
             home.Records += ShowRecords;
             home.Hangar += () => { ui.ShowOnly(hangar); hangar.Open(catalog, current.id); };
             home.Training += ShowBriefing;
-            home.QuickStart += () => SceneNames.Load(SceneNames.ARInspection);
+            home.QuickStart += () => { GameSession.UseAR = false; SceneNames.Load(SceneNames.ARInspection); };
             home.Prev += () => Cycle(-1);
             home.Next += () => Cycle(1);
 
@@ -97,6 +97,13 @@ namespace DroneTrainer.Core
             briefing.StartRequested += mode =>
             {
                 GameSession.Mode = mode;
+                GameSession.UseAR = false;           // core: 3D inspection viewer
+                SceneNames.Load(SceneNames.ARInspection);
+            };
+            briefing.StartARRequested += mode =>
+            {
+                GameSession.Mode = mode;
+                GameSession.UseAR = true;            // add-on: AR Foundation placement on a real surface
                 SceneNames.Load(SceneNames.ARInspection);
             };
 
@@ -116,7 +123,7 @@ namespace DroneTrainer.Core
 
         void Cycle(int dir)
         {
-            var unlocked = catalog.drones.Where(d => d && !d.locked && d.prefab).ToList();
+            var unlocked = catalog.drones.Where(d => d && !d.locked && d.HasModel).ToList();
             if (unlocked.Count < 2) return;
             int i = (unlocked.IndexOf(current) + dir + unlocked.Count) % unlocked.Count;
             StartCoroutine(SelectAndStay(unlocked[i]));
@@ -148,6 +155,7 @@ namespace DroneTrainer.Core
             if (scenario == null) return;
             ui.ShowOnly(briefing);
             briefing.Open(current, scenario, GameSession.Mode);
+            briefing.SetARAvailable(arReady);
         }
 
         void ShowRecords()
