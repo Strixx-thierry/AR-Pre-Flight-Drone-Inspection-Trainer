@@ -78,3 +78,8 @@ desktop.ini
 
 # Blender backups
 *.blend1
+
+# Python cache
+__pycache__/
+# Docs and generators stay local
+/Docs/
