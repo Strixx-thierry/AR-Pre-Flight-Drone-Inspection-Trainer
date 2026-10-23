@@ -20,6 +20,7 @@ MonoBehaviour:
   locked: 1
   lockedNote: "Bonus \xB7 locked"
   prefab: {fileID: 0}
+  address: 
   heroImage: {fileID: 0}
   scenarioFile: 
   fallbackScenario: {fileID: 0}

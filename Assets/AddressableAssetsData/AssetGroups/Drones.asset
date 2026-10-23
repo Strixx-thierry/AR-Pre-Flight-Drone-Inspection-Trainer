@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Drones
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Drones
+  m_GUID: 4996ffc1cc223b444806a6d0469e5eee
+  m_SerializeEntries:
+  - m_GUID: 4ba0091879e55db40b7b49bb7f3cd5f7
+    m_Address: SKYFOLD_F4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - drone
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de3a654bbbe57304289894f8bcb58cd8
+    m_Address: TALON_X4
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - drone
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 89e73b3320ecb6644ac3b097af46b57a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 466c0a3278b083d47bd47074feb82728, type: 2}
+    - {fileID: 11400000, guid: b390132efa0ceda49b9ef38072b2190c, type: 2}
