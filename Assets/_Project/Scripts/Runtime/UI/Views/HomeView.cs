@@ -19,12 +19,26 @@ namespace DroneTrainer.UI
         public UIButton settingsButton, helpButton, recordsRailButton, prevButton, nextButton;
         public UIButton homeTile, hangarTile, trainingTile, recordsTile, quickStart;
         public event Action Settings, Help, Prev, Next, Hangar, Training, Records, QuickStart;
+        public event Action<bool> ModeChanged;          // true = AR
+        public UIButton mode3DButton, modeARButton;
+        public TextMeshProUGUI modeNote;
+        bool arAvailable;
 
         protected override void Build()
         {
             // full-width bottom strip (outside the gutters, like the reference)
 
             var c = Content();
+
+            // 3D | AR view-mode toggle (top-left)
+            var modeBox = VStack(c, "ViewMode", 6, TextAnchor.UpperLeft);
+            modeBox.At(0, 1, 0, 1, 420, 150);
+            var seg = HStack(modeBox, "Toggle", 10);
+            mode3DButton = Button(seg, "Mode3D", "3D", ButtonStyle.Primary, "drone", 104);
+            mode3DButton.Size(190, 104);
+            modeARButton = Button(seg, "ModeAR", "AR", ButtonStyle.Ghost, "target", 104);
+            modeARButton.Size(190, 104);
+            modeNote = Text(modeBox, "Note", "3D INSPECTION VIEW", 20, T.textDim, TextStyle.Label);
 
             heroImage = Img(c, "Hero", Color.white, T.heroDrone);
             heroImage.preserveAspect = true;
@@ -122,7 +136,9 @@ namespace DroneTrainer.UI
             var fg = active ? UITheme.Hex("1A1F26") : UITheme.Hex("8A929C");
             b.icon.Size(88, 88);
             b.icon.color = fg;
-            b.label = Text(row, "Label", label, 30, fg, TextStyle.Display, TextAlignmentOptions.Center);
+            b.label = Text(row, "Label", label, 24, fg, TextStyle.Display, TextAlignmentOptions.Center);
+            b.label.textWrappingMode = TextWrappingModes.NoWrap;
+            b.label.overflowMode = TextOverflowModes.Overflow;
             b.label.characterSpacing = 2;
             return b;
         }
@@ -138,6 +154,21 @@ namespace DroneTrainer.UI
             trainingTile.Clicked += () => Training?.Invoke();
             recordsTile.Clicked += () => Records?.Invoke();
             quickStart.Clicked += () => QuickStart?.Invoke();
+            mode3DButton.Clicked += () => ModeChanged?.Invoke(false);
+            modeARButton.Clicked += () =>
+            {
+                if (arAvailable) ModeChanged?.Invoke(true);
+                else modeNote.text = "AR NOT SUPPORTED ON THIS DEVICE";
+            };
+        }
+
+        /// <summary>Highlights the active mode; AR is greyed out when the device has no ARCore.</summary>
+        public void SetMode(bool ar, bool available)
+        {
+            arAvailable = available;
+            mode3DButton.SetStyle(ar ? ButtonStyle.Ghost : ButtonStyle.Primary);
+            modeARButton.SetStyle(ar ? ButtonStyle.Primary : available ? ButtonStyle.Ghost : ButtonStyle.Disabled);
+            modeNote.text = ar ? "AR · PLACE ON A REAL SURFACE" : available ? "3D INSPECTION VIEW" : "3D VIEW · AR NOT SUPPORTED HERE";
         }
 
         public void Set(DroneDefinition d, int sessions, float best, int lastScore, bool arReady)

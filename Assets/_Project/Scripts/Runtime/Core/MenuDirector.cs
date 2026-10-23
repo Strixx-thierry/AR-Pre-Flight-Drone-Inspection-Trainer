@@ -85,7 +85,12 @@ namespace DroneTrainer.Core
             home.Records += ShowRecords;
             home.Hangar += () => { ui.ShowOnly(hangar); hangar.Open(catalog, current.id); };
             home.Training += ShowBriefing;
-            home.QuickStart += () => { GameSession.UseAR = false; SceneNames.Load(SceneNames.ARInspection); };
+            home.QuickStart += StartTraining;
+            home.ModeChanged += ar =>
+            {
+                AppSettings.ARMode = ar;
+                home.SetMode(ar, arReady);
+            };
             home.Prev += () => Cycle(-1);
             home.Next += () => Cycle(1);
 
@@ -97,14 +102,7 @@ namespace DroneTrainer.Core
             briefing.StartRequested += mode =>
             {
                 GameSession.Mode = mode;
-                GameSession.UseAR = false;           // core: 3D inspection viewer
-                SceneNames.Load(SceneNames.ARInspection);
-            };
-            briefing.StartARRequested += mode =>
-            {
-                GameSession.Mode = mode;
-                GameSession.UseAR = true;            // add-on: AR Foundation placement on a real surface
-                SceneNames.Load(SceneNames.ARInspection);
+                StartTraining();
             };
 
             records.Back += ShowHome;
@@ -137,6 +135,13 @@ namespace DroneTrainer.Core
             RefreshHome();
         }
 
+        /// <summary>Starts a session in the mode picked on Home (AR only if the device supports it).</summary>
+        void StartTraining()
+        {
+            GameSession.UseAR = AppSettings.ARMode && arReady;
+            SceneNames.Load(SceneNames.ARInspection);
+        }
+
         void ShowHome()
         {
             ui.ShowOnly(home);
@@ -148,6 +153,7 @@ namespace DroneTrainer.Core
             var sessions = ProgressStore.GetSessions(current.id);
             home.Set(current, sessions.Count, ProgressStore.BestTime(current.id),
                      sessions.Count > 0 ? sessions[0].score : -1, arReady);
+            home.SetMode(AppSettings.ARMode && arReady, arReady);
         }
 
         void ShowBriefing()
@@ -155,7 +161,7 @@ namespace DroneTrainer.Core
             if (scenario == null) return;
             ui.ShowOnly(briefing);
             briefing.Open(current, scenario, GameSession.Mode);
-            briefing.SetARAvailable(arReady);
+            briefing.SetARAvailable(false);   // mode is chosen with the 3D | AR toggle on Home
         }
 
         void ShowRecords()

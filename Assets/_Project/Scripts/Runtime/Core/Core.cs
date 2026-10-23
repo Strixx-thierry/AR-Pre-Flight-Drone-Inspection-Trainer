@@ -60,6 +60,8 @@ namespace DroneTrainer.Core
         public static bool Hints { get => Get("hints", true); set => Set("hints", value); }
         public static bool LeftHanded { get => Get("lefthand", false); set => Set("lefthand", value); }
         public static bool ShowPlanes { get => Get("planes", true); set => Set("planes", value); }
+        /// <summary>View mode chosen on Home: false = 3D inspection viewer (core), true = AR add-on.</summary>
+        public static bool ARMode { get => Get("armode", false); set => Set("armode", value); }
 
         public static string PilotName
         {
